@@ -330,12 +330,23 @@ More examples
 
 * <details><summary>Docker</summary><br>
 
+  > Add the `dotenvx` binary to your Dockerfile
+
   ```sh
-  coming soon
+  # Install dotenvx
+  RUN curl -fsS https://dotenvx.sh/ | sh
   ```
 
-  </details>
+  > Use it in your Dockerfile CMD
 
+  ```sh
+  # Prepend dotenvx run
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  see [docker guide](https://dotenvx.com/docs/platforms/docker)
+
+  </details>
 
 * <details><summary>Fly.io</summary><br>
 
@@ -359,7 +370,7 @@ More examples
   web: dotenvx run -- node index.js
   ```
 
-  [see heroku guide](https://dotenvx.com/docs/platforms/heroku)
+  see [heroku guide](https://dotenvx.com/docs/platforms/heroku)
 
   </details>
 
@@ -418,6 +429,18 @@ More examples
   ```
 
   </details>
+
+&nbsp;
+
+## Hub
+
+> Integrate tightly with [GitHub](https://github.com) 🐙
+```sh
+$ dotenvx hub login
+$ dotenvx hub push
+```
+
+more details coming soon.
 
 &nbsp;
 
