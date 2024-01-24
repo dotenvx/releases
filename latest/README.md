@@ -11,10 +11,30 @@
 
 ### Quickstart
 
+Install and use it in code just like `dotenv`.
+
+```sh
+npm install @dotenvx/dotenvx --save
+```
+```js
+// index.js
+require('@dotenvx/dotenvx').config()
+
+console.log(`Hello ${process.env.HELLO}`)
+```
+
+&nbsp;
+
+Or install globally
+
 ```sh
 brew install dotenvx/brew/dotenvx
 ```
-> * [other ways to install](https://dotenvx.com/docs/install)
+> * [other global ways to install](https://dotenvx.com/docs/install)
+>
+> Installing globally as a cli unlocks dotenv for ANY language, framework, or platform. 💥
+>
+> I am using (and recommending) this approach going forward. – [motdotla](https://github.com/motdotla)
 
 &nbsp;
 
@@ -132,6 +152,14 @@ More examples
 
   $ dotenvx run --quiet -- sh -c 'echo $HELLO'
   World
+  ```
+
+  </details>
+* <details><summary>Cron ⏰</summary><br>
+
+  ```sh
+  # run every day at 8am
+  0 8 * * * dotenvx run -- /path/to/myscript.sh
   ```
 
   </details>
@@ -329,6 +357,33 @@ More examples
   ```
 
   </details>
+* <details><summary>`--quiet` flag</summary><br>
+
+  Use `--quiet` to suppress all output (except errors).
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+
+  $ dotenvx run --env-file=.env.production --quiet -- node index.js
+  Hello production
+  ```
+
+  </details>
+* <details><summary>`--log-level` flag</summary><br>
+
+  Set `--log-level` to whatever you wish. For example, to supress warnings (risky), set log level to `error`:
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+
+  $ dotenvx run --env-file=.env.production --log-level=error -- node index.js
+  Hello production
+  ```
+
+  Available log levels are `error, warn, info, verbose, debug, silly`
+
+  </details>
+
 
 &nbsp;
 
