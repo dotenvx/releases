@@ -423,7 +423,7 @@ More examples
 
   </details>
 
-* <details><summary>Docker</summary><br>
+* <details><summary>Docker 🐳</summary><br>
 
   > Add the `dotenvx` binary to your Dockerfile
 
@@ -443,15 +443,27 @@ More examples
 
   </details>
 
-* <details><summary>Fly.io</summary><br>
+* <details><summary>Fly.io 🎈</summary><br>
+
+  > Add the `dotenvx` binary to your Dockerfile
 
   ```sh
-  coming soon
+  # Install dotenvx
+  RUN curl -fsS https://dotenvx.sh/ | sh
   ```
+
+  > Use it in your Dockerfile CMD
+
+  ```sh
+  # Prepend dotenvx run
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  see [fly guide](https://dotenvx.com/docs/platforms/fly)
 
   </details>
 
-* <details><summary>Heroku</summary><br>
+* <details><summary>Heroku 🟣</summary><br>
 
   > Add the buildpack, installing the `dotenvx` binary to your heroku deployment.
 
@@ -477,19 +489,46 @@ More examples
 
   </details>
 
-* <details><summary>Netlify</summary><br>
+* <details><summary>Netlify 🔷</summary><br>
+
+  > Add the `dotenvx` npm module
 
   ```sh
-  coming soon
+  npm install @dotenvx/dotenvx --save
   ```
+
+  > Use it in your `package.json scripts`
+
+  ```json
+  "scripts": {
+    "dotenvx": "dotenvx",
+    "dev": "dotenvx run -- next dev --turbo",
+    "build": "dotenvx run -- next build",
+    "start": "dotenvx run -- next start"
+  },
+  ```
+
+  see [netlify guide](https://dotenvx.com/docs/platforms/netlify)
 
   </details>
 
-* <details><summary>Railway</summary><br>
+* <details><summary>Railway 🚄</summary><br>
+
+  > Add the `dotenvx` binary to your Dockerfile
 
   ```sh
-  coming soon
+  # Install dotenvx
+  RUN curl -fsS https://dotenvx.sh/ | sh
   ```
+
+  > Use it in your Dockerfile CMD
+
+  ```sh
+  # Prepend dotenvx run
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  see [railway guide](https://dotenvx.com/docs/platforms/railway)
 
   </details>
 
@@ -501,7 +540,7 @@ More examples
 
   </details>
 
-* <details><summary>Vercel</summary><br>
+* <details><summary>Vercel ▲</summary><br>
 
   > Add the `dotenvx` npm module
 
@@ -532,7 +571,7 @@ More examples
 
   </details>
 
-* <details><summary>GitHub Actions</summary><br>
+* <details><summary>GitHub Actions 🐙</summary><br>
 
   > Add the `dotenvx` binary to GitHub Actions
 
@@ -561,42 +600,38 @@ More examples
 
 ## Hub
 
-> Integrate tightly with [GitHub](https://github.com) 🐙
+> Integrate tightly with [GitHub](https://github.com) 🐙 and as a team
 ```sh
 $ dotenvx hub login
 $ dotenvx hub push
 ```
 
-more details coming soon.
+**beta**: more details coming soon.
+
+&nbsp;
+
+## More features
+
+> Keep your `.env` files safe
+
+* [`dotenvx gitignore`](https://dotenvx.com/docs/features/gitignore) – gitignore your `.env` files
+* [`dotenvx precommit`](https://dotenvx.com/docs/features/precommit) – prevent `.env` files from being committed to code
+* [`dotenvx prebuild`](https://dotenvx.com/docs/features/prebuild) – prevent `.env` files from being built into your docker container
+* `dotenvx genexample` – generate `.env.example` file (coming soon)
 
 &nbsp;
 
 ## Guides
 
+* [quickstart guides](https://dotenvx.com/docs/quickstart)
+  * [run anywhere](https://dotenvx.com/docs/quickstart/run)
+  * [multi-environment](https://dotenvx.com/docs/quickstart/environments)
+  * [encrypted envs](https://dotenvx.com/docs/quickstart/encryption)
 * [dotenvx/docs](https://dotenvx.com/docs)
-* [quickstart guide](https://dotenvx.com/docs/quickstart)
-
-&nbsp;
-
-## Pre-commit
-
-You can prevent `.env` files from being committed to code with this pre-commit hook.
-
-```
-dotenvx precommit --install
-```
-
-Run without the `--install` flag to preview output.
-
-```
-dotenvx precommit
-```
-
-To ignore the pre-commit hook run your git commit with the `--no-verify` flag.
-
-```
-git commit -am "msg" --no-verify
-```
+  * [languages](https://dotenvx.com/docs#languages)
+  * [frameworks](https://dotenvx.com/docs#frameworks)
+  * [platforms](https://dotenvx.com/docs#platforms)
+  * [ci/cd](https://dotenvx.com/docs#cis)
 
 &nbsp;
 
