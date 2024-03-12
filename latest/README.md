@@ -58,11 +58,27 @@ More examples
 
 * <details><summary>TypeScript 📘</summary><br>
 
-  ```sh
-  $ echo "HELLO=World" > .env
-  $ echo "console.log('Hello ' + process.env.HELLO)" > index.ts
+  ```json
+  // package.json
+  {
+    "type": "module",
+    "dependencies": {
+      "chalk": "^5.3.0"
+    }
+  }
+  ```
 
-  $ dotenvx run -- npx ts-node index.ts
+  ```js
+  // index.ts
+  import chalk from 'chalk'
+  console.log(chalk.blue(`Hello ${process.env.HELLO}`))
+  ```
+
+  ```sh
+  $ npm install
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx run -- npx tsx index.ts
   Hello World
   ```
 
@@ -298,18 +314,41 @@ More examples
   Reference and expand variables already on your machine for use in your .env file.
 
   ```ini
-  DATABASE_URL="postgres://${USER}@localhost/my_database"
+  # .env
+  USERNAME="username"
+  DATABASE_URL="postgres://${USERNAME}@localhost/my_database"
   ```
   ```js
+  // index.js
   console.log('DATABASE_URL', process.env.DATABASE_URL)
   ```
   ```sh
-  $ USER=username dotenvx run --debug -- node index.js
-  [dotenvx@0.14.1] injecting env (1) from .env
+  $ dotenvx run --debug -- node index.js
+  [dotenvx@0.14.1] injecting env (2) from .env
   DATABASE_URL postgres://username@localhost/my_database
   ```
 
   </details>
+* <details><summary>Command Substitution</summary><br>
+
+  Add the output of a command to one of your variables in your .env file.
+
+  ```ini
+  # .env
+  DATABASE_URL="postgres://$(whoami)@localhost/my_database"
+  ```
+  ```js
+  // index.js
+  console.log('DATABASE_URL', process.env.DATABASE_URL)
+  ```
+  ```sh
+  $ dotenvx run --debug -- node index.js
+  [dotenvx@0.14.1] injecting env (1) from .env
+  DATABASE_URL postgres://yourusername@localhost/my_database
+  ```
+
+  </details>
+
 
 &nbsp;
 
