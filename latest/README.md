@@ -32,7 +32,7 @@ brew install dotenvx/brew/dotenvx
 ```
 > * [other global ways to install](https://dotenvx.com/docs/install)
 >
-> Installing globally as a cli unlocks dotenv for ANY language, framework, or platform. 💥
+> Intall globally as a cli to unlock dotenv for ANY language, framework, or platform. 💥
 >
 > I am using (and recommending) this approach going forward. – [motdotla](https://github.com/motdotla)
 
@@ -700,6 +700,25 @@ $ dotenvx hub push
   * [frameworks](https://dotenvx.com/docs#frameworks)
   * [platforms](https://dotenvx.com/docs#platforms)
   * [ci/cd](https://dotenvx.com/docs#cis)
+
+&nbsp;
+
+## FAQ
+
+#### Why am I getting the error `node: .env: not found`?
+
+You are using Node 20 or greater and it adds a differing implementation of `--env-file` flag support. Rather than warn on a missing `.env` file (like dotenv has historically done), it raises an error: `node: .env: not found`.
+
+This fix is easy. Replace `--env-file` with `-f`.
+
+```bash
+# from this:
+./node_modules/.bin/dotenvx run --env-file .env -- yourcommand
+# to this:
+./node_modules/.bin/dotenvx run -f .env -- yourcommand
+```
+
+[more context](https://github.com/dotenvx/dotenvx/issues/131)
 
 &nbsp;
 
