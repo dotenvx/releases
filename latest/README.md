@@ -260,6 +260,19 @@ More examples
   see [platform guides](https://dotenvx.com/docs#platforms)
 
   </details>
+* <details><summary>Process Managers</summary><br>
+
+  ```js
+  // pm2
+  "scripts": {
+    "start": "dotenvx run -- pm2-runtime start ecosystem.config.js --env production"
+  },
+  ```
+
+  see [process manager guides](https://dotenvx.com/docs#process-managers)
+
+  </details>
+
 * <details><summary>npx</summary><br>
 
   ```sh
@@ -354,12 +367,12 @@ More examples
 
 ## Multiple Environments
 
-> Create a `.env.production` file and use `--env-file` to load it. It's straightforward, yet flexible.
+> Create a `.env.production` file and use `-f` to load it. It's straightforward, yet flexible.
 ```sh
 $ echo "HELLO=production" > .env.production
 $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
-$ dotenvx run --env-file=.env.production -- node index.js
+$ dotenvx run -f .env.production -- node index.js
 [dotenvx][info] loading env (1) from .env.production
 Hello production
 > ^^
@@ -374,7 +387,7 @@ More examples
 
   $ echo "HELLO=World" > .env
 
-  $ dotenvx run --env-file=.env.local --env-file=.env -- node index.js
+  $ dotenvx run -f .env.local -f .env -- node index.js
   [dotenvx][info] loading env (1) from .env.local,.env
   Hello local
   ```
@@ -388,7 +401,7 @@ More examples
 
   $ echo "HELLO=World" > .env
 
-  $ dotenvx run --env-file=.env.local --env-file=.env --overload -- node index.js
+  $ dotenvx run -f .env.local -f .env --overload -- node index.js
   [dotenvx][info] loading env (1) from .env.local,.env
   Hello World
   ```
@@ -398,7 +411,7 @@ More examples
   ```sh
   $ echo "HELLO=production" > .env.production
 
-  $ dotenvx run --env-file=.env.production --verbose -- node index.js
+  $ dotenvx run -f .env.production --verbose -- node index.js
   [dotenvx][verbose] injecting env from /path/to/.env.production
   [dotenvx][verbose] HELLO set
   [dotenvx][info] loading env (1) from .env.production
@@ -410,7 +423,7 @@ More examples
   ```sh
   $ echo "HELLO=production" > .env.production
 
-  $ dotenvx run --env-file=.env.production --debug -- node index.js
+  $ dotenvx run -f .env.production --debug -- node index.js
   [dotenvx][debug] configuring options
   [dotenvx][debug] {"envFile":[".env.production"]}
   [dotenvx][verbose] injecting env from /path/to/.env.production
@@ -432,7 +445,7 @@ More examples
   ```sh
   $ echo "HELLO=production" > .env.production
 
-  $ dotenvx run --env-file=.env.production --quiet -- node index.js
+  $ dotenvx run -f .env.production --quiet -- node index.js
   Hello production
   ```
 
@@ -444,7 +457,7 @@ More examples
   ```sh
   $ echo "HELLO=production" > .env.production
 
-  $ dotenvx run --env-file=.env.production --log-level=error -- node index.js
+  $ dotenvx run -f .env.production --log-level=error -- node index.js
   Hello production
   ```
 
