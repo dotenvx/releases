@@ -84,6 +84,32 @@ More examples
 
   </details>
 
+* <details><summary>Deno 🦕</summary><br>
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "console.log('Hello ' + Deno.env.get('HELLO'))" > index.ts
+
+  $ deno run --allow-env index.ts
+  Hello undefined
+
+  $ dotenvx run -- deno run --allow-env index.ts
+  Hello World
+  ```
+
+* <details><summary>Bun 🥟</summary><br>
+
+  ```sh
+  $ echo "HELLO=Test" > .env.test
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ bun index.js
+  Hello undefined
+
+  $ dotenvx run -f .env.test -- bun index.js
+  Hello Test
+  ```
+
 * <details><summary>Python 🐍</summary><br>
 
   ```sh
