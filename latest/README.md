@@ -490,7 +490,25 @@ More examples
   Available log levels are `error, warn, info, verbose, debug, silly`
 
   </details>
+* <details><summary>`--convention` flag</summary><br>
 
+  Want to load envs conveniently usng the same convention as Next.js? Set `--convention` to `nextjs`:
+
+  ```sh
+  $ echo "HELLO=development local" > .env.development.local
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=development" > .env.development
+  $ echo "HELLO=env" > .env
+
+  $ dotenvx run --convention=nextjs -- node index.js
+  Hello development local
+  ```
+
+  See [next.js environment variable load order](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order)
+
+  (more conventions available upon request)
+
+  </details>
 
 &nbsp;
 
