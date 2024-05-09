@@ -514,224 +514,75 @@ More examples
 
 ## Encryption
 
-> Encrypt your secrets to a `.env.vault` file and load from it (recommended for production and ci).
+> Add encryption to your `.env` files with a single command. Pass the `--encrypt` flag.
+
 ```sh
-$ echo "HELLO=World" > .env
-$ echo "HELLO=production" > .env.production
-$ echo "console.log('Hello ' + process.env.HELLO)" > index.js
-
-$ dotenvx encrypt
-[dotenvx][info] encrypted to .env.vault (.env,.env.production)
-[dotenvx][info] keys added to .env.keys (DOTENV_KEY_PRODUCTION,DOTENV_KEY_PRODUCTION)
-
-$ DOTENV_KEY='<dotenv_key_production>' dotenvx run -- node index.js
-[dotenvx][info] loading env (1) from encrypted .env.vault
-Hello production
-^ :-]
+$ dotenvx set HELLO World --encrypt
+set HELLO with encryption (.env)
 ```
+
+![](https://github.com/dotenvx/dotenvx/assets/3848/21f7a529-7a40-44e4-87d4-a72e1637b702)
+
+> A `DOTENV_PUBLIC_KEY` (encryption key) and a `DOTENV_PRIVATE_KEY` (decryption key) is generated using the same public-key cryptography as [Bitcoin](https://en.bitcoin.it/wiki/Secp256k1).
 
 More examples
 
-* <details><summary>AWS Lambda</summary><br>
+* <details><summary>`.env`</summary><br>
 
   ```sh
-  coming soon
+  $ dotenvx set HELLO World --encrypt
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env
+  Hello World
   ```
 
-  </details>
-
-* <details><summary>Digital Ocean</summary><br>
+* <details><summary>`.env.production`</summary><br>
 
   ```sh
-  coming soon
+  $ dotenvx set HELLO Production --encrypt -f .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ DOTENV_PRIVATE_KEY_PRODUCTION="<.env.production private key>" dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env.production
+  Hello Production
   ```
 
-  </details>
+  Note the `DOTENV_PRIVATE_KEY_PRODUCTION` ends with `_PRODUCTION`. This instructs `dotenvx run` to load the `.env.production` file.
 
-* <details><summary>Docker 🐳</summary><br>
-
-  > Add the `dotenvx` binary to your Dockerfile
+* <details><summary>`.env.ci`</summary><br>
 
   ```sh
-  # Install dotenvx
-  RUN curl -fsS https://dotenvx.sh/ | sh
+  $ dotenvx set HELLO Ci --encrypt -f .env.ci
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ DOTENV_PRIVATE_KEY_CI="<.env.ci private key>" dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env.ci
+  Hello Ci
   ```
 
-  > Use it in your Dockerfile CMD
+  Note the `DOTENV_PRIVATE_KEY_CI` ends with `_CI`. This instructs `dotenvx run` to load the `.env.ci` file. See the pattern?
+
+* <details><summary>combine multiple encrypted .env files</summary><br>
 
   ```sh
-  # Prepend dotenvx run
-  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  $ dotenvx set HELLO World --encrypt -f .env
+  $ dotenvx set HELLO Production --encrypt -f .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ DOTENV_PRIVATE_KEY="<.env private key>" DOTENV_PRIVATE_KEY_PRODUCTION="<.env.production private key>" dotenvx run -- node index.js
+  [dotenvx] injecting env (3) from .env, .env.production
+  Hello World
   ```
 
-  see [docker guide](https://dotenvx.com/docs/platforms/docker)
+  Note the `DOTENV_PRIVATE_KEY` instructs `dotenvx run` to load the `.env` file and the `DOTENV_PRIVATE_KEY_PRODUCTION` instructs it to load the `.env.production` file. See the pattern?
 
-  </details>
+* <details><summary>other curves</summary><br>
 
-* <details><summary>Fly.io 🎈</summary><br>
-
-  > Add the `dotenvx` binary to your Dockerfile
-
-  ```sh
-  # Install dotenvx
-  RUN curl -fsS https://dotenvx.sh/ | sh
-  ```
-
-  > Use it in your Dockerfile CMD
-
-  ```sh
-  # Prepend dotenvx run
-  CMD ["dotenvx", "run", "--", "node", "index.js"]
-  ```
-
-  see [fly guide](https://dotenvx.com/docs/platforms/fly)
-
-  </details>
-
-* <details><summary>Heroku 🟣</summary><br>
-
-  > Add the buildpack, installing the `dotenvx` binary to your heroku deployment.
-
-  ```sh
-  heroku buildpacks:add https://github.com/dotenvx/heroku-buildpack-dotenvx
-  ```
-
-  > Use it in your Procfile.
-
-  ```sh
-  web: dotenvx run -- node index.js
-  ```
-
-  see [heroku guide](https://dotenvx.com/docs/platforms/heroku)
-
-  </details>
-
-* <details><summary>Laravel Forge</summary><br>
-
-  ```sh
-  coming soon
-  ```
-
-  </details>
-
-* <details><summary>Netlify 🔷</summary><br>
-
-  > Add the `dotenvx` npm module
-
-  ```sh
-  npm install @dotenvx/dotenvx --save
-  ```
-
-  > Use it in your `package.json scripts`
-
-  ```json
-  "scripts": {
-    "dotenvx": "dotenvx",
-    "dev": "dotenvx run -- next dev --turbo",
-    "build": "dotenvx run -- next build",
-    "start": "dotenvx run -- next start"
-  },
-  ```
-
-  see [netlify guide](https://dotenvx.com/docs/platforms/netlify)
-
-  </details>
-
-* <details><summary>Railway 🚄</summary><br>
-
-  > Add the `dotenvx` binary to your Dockerfile
-
-  ```sh
-  # Install dotenvx
-  RUN curl -fsS https://dotenvx.sh/ | sh
-  ```
-
-  > Use it in your Dockerfile CMD
-
-  ```sh
-  # Prepend dotenvx run
-  CMD ["dotenvx", "run", "--", "node", "index.js"]
-  ```
-
-  see [railway guide](https://dotenvx.com/docs/platforms/railway)
-
-  </details>
-
-* <details><summary>Render</summary><br>
-
-  ```sh
-  coming soon
-  ```
-
-  </details>
-
-* <details><summary>Vercel ▲</summary><br>
-
-  > Add the `dotenvx` npm module
-
-  ```sh
-  npm install @dotenvx/dotenvx --save
-  ```
-
-  > Use it in your `package.json scripts`
-
-  ```json
-  "scripts": {
-    "dotenvx": "dotenvx",
-    "dev": "dotenvx run -- next dev --turbo",
-    "build": "dotenvx run -- next build",
-    "start": "dotenvx run -- next start"
-  },
-  ```
-
-  see [vercel guide](https://dotenvx.com/docs/platforms/vercel)
-
-  </details>
-
-* <details><summary>CircleCI</summary><br>
-
-  ```sh
-  coming soon
-  ```
-
-  </details>
-
-* <details><summary>GitHub Actions 🐙</summary><br>
-
-  > Add the `dotenvx` binary to GitHub Actions
-
-  ```sh
-  name: build
-  on: [push]
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: curl -fsS https://dotenvx.sh/ | sh
-      - run: dotenvx run -- node build.js
-        env:
-          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
-  ```
-
-  see [github actions guide](https://dotenvx.com/docs/cis/github-actions)
-
-  </details>
-
-&nbsp;
-
-## Hub
-
-> Integrate tightly with [GitHub](https://github.com) 🐙 and as a team
-```sh
-$ dotenvx hub login
-$ dotenvx hub push
-```
-
-**beta**: more details coming soon.
+  > `secp256k1` is a well-known and battle tested curve, in use with Bitcoin and other cryptocurrencies, but we are open to adding support for more curves.
+  > 
+  > If your organization's compliance department requires [NIST approved curves](https://csrc.nist.gov/projects/elliptic-curve-cryptography) or other curves like `curve25519`, please reach out at [security@dotenvx.com](mailto:security@dotenvx.com).
 
 &nbsp;
 
@@ -785,6 +636,23 @@ This fix is easy. Replace `--env-file` with `-f`.
 ```
 
 [more context](https://github.com/dotenvx/dotenvx/issues/131)
+
+#### What happened to the `.env.vault` file?
+
+I've decided we should sunset it as a technological solution to this.
+
+The `.env.vault` file got us far, but it had limitations such as:
+
+* *Pull Requests* - it was difficult to tell which key had been changed
+* *Security* - there was no mechanism to give a teammate the ability to encrypt without also giving them the ability to decrypt. Sometimes you just want to let a contractor encrypt a new value, but you don't want them to know the rest of the secrets.
+* *Conceptual* - it takes more mental energy to understand the `.env.vault` format. Encrypted values inside a `.env` file is easier to quickly grasp.
+* *Combining Multiple Files* - there was simply no mechanism to do this well with the `.env.vault` file format.
+
+That said, the `.env.vault` tooling will still stick around for at least 1 year under `dotenvx vault` parent command. I'm still using it in projects as are many thousands of other people.
+
+#### Will you provide a migration tool to quickly switch `.env.vault` files to encrypted `.env` files?
+
+Yes. Working on this soon.
 
 &nbsp;
 
