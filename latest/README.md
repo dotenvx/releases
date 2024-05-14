@@ -492,7 +492,7 @@ More examples
   </details>
 * <details><summary>`--convention` flag</summary><br>
 
-  Want to load envs conveniently usng the same convention as Next.js? Set `--convention` to `nextjs`:
+  Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
 
   ```sh
   $ echo "HELLO=development local" > .env.development.local
@@ -503,8 +503,6 @@ More examples
   $ dotenvx run --convention=nextjs -- node index.js
   Hello development local
   ```
-
-  See [next.js environment variable load order](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order)
 
   (more conventions available upon request)
 
@@ -523,7 +521,7 @@ set HELLO with encryption (.env)
 
 ![](https://github.com/dotenvx/dotenvx/assets/3848/21f7a529-7a40-44e4-87d4-a72e1637b702)
 
-> A `DOTENV_PUBLIC_KEY` (encryption key) and a `DOTENV_PRIVATE_KEY` (decryption key) is generated using the same public-key cryptography as [Bitcoin](https://en.bitcoin.it/wiki/Secp256k1).
+> A `DOTENV_PUBLIC_KEY` (encryption key) and a `DOTENV_PRIVATE_KEY` (decryption key) are generated using the same public-key cryptography as [Bitcoin](https://en.bitcoin.it/wiki/Secp256k1).
 
 More examples
 
@@ -586,23 +584,575 @@ More examples
 
 &nbsp;
 
-## More features
+## Advanced usage
 
-> Keep your `.env` files safe
+* <details><summary>`run` - Variable Expansion</summary><br>
 
-* [`dotenvx genexample`](https://dotenvx.com/docs/features/genexample) – generate `.env.example` file
-* [`dotenvx gitignore`](https://dotenvx.com/docs/features/gitignore) – gitignore your `.env` files
-* [`dotenvx prebuild`](https://dotenvx.com/docs/features/prebuild) – prevent `.env` files from being built into your docker container
-* [`dotenvx precommit`](https://dotenvx.com/docs/features/precommit) – prevent `.env` files from being committed to code
-* [`dotenvx scan`](https://dotenvx.com/docs/features/scan) – scan for leaked secrets in code
+  Reference and expand variables already on your machine for use in your .env file.
 
-> Convenience
+  ```ini
+  # .env
+  USERNAME="username"
+  DATABASE_URL="postgres://${USERNAME}@localhost/my_database"
+  ```
+  ```js
+  // index.js
+  console.log('DATABASE_URL', process.env.DATABASE_URL)
+  ```
+  ```sh
+  $ dotenvx run --debug -- node index.js
+  [dotenvx] injecting env (2) from .env
+  DATABASE_URL postgres://username@localhost/my_database
+  ```
 
-* [`dotenvx get`](https://dotenvx.com/docs/features/get) – return a single environment variable
-* [`dotenvx set`](https://dotenvx.com/docs/features/set) – set a single environment variable
-* [`dotenvx ls`](https://dotenvx.com/docs/features/ls) – list all .env files in your repo
-* [`dotenvx status`](https://dotenvx.com/docs/features/status) – compare your .env* content(s) to your .env.vault decrypted content(s)
-* [`dotenvx settings`](https://dotenvx.com/docs/features/settings) – print current dotenvx settings
+  </details>
+* <details><summary>`run` - Command Substitution</summary><br>
+
+  Add the output of a command to one of your variables in your .env file.
+
+  ```ini
+  # .env
+  DATABASE_URL="postgres://$(whoami)@localhost/my_database"
+  ```
+  ```js
+  // index.js
+  console.log('DATABASE_URL', process.env.DATABASE_URL)
+  ```
+  ```sh
+  $ dotenvx run --debug -- node index.js
+  [dotenvx] injecting env (1) from .env
+  DATABASE_URL postgres://yourusername@localhost/my_database
+  ```
+
+  </details>
+* <details><summary>`run` - multiple `-f` flags</summary><br>
+
+  Compose multiple `.env` files for environment variables loading, as you need.
+
+  ```sh
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=World" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.local -f .env -- node index.js
+  [dotenvx] injecting env (1) from .env.local, .env
+  Hello local
+  ```
+
+  </details>
+* <details><summary>`run --env HELLO=String`</summary><br>
+
+  Set environment variables as a simple `KEY=value` string pair.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run --env HELLO=String -f .env -- node index.js
+  [dotenvx] injecting env (1) from .env, and --env flag
+  Hello String
+  ```
+
+  </details>
+* <details><summary>`run --overload`</summary><br>
+
+  Override existing env variables. These can be variables already on your machine or variables loaded as files consecutively. The last variable seen will 'win'.
+
+  ```sh
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=World" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.local -f .env --overload -- node index.js
+  [dotenvx] injecting env (1) from .env.local, .env
+  Hello World
+  ```
+
+  </details>
+* <details><summary>`run --verbose`</summary><br>
+
+  Set log level to `verbose`. ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.production --verbose -- node index.js
+  loading env from .env.production (/path/to/.env.production)
+  HELLO set
+  [dotenvx] injecting env (1) from .env.production
+  Hello production
+  ```
+
+  </details>
+* <details><summary>`run --debug`</summary><br>
+
+  Set log level to `debug`. ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.production --debug -- node index.js
+  process command [node index.js]
+  options: {"env":[],"envFile":[".env.production"]}
+  loading env from .env.production (/path/to/.env.production)
+  {"HELLO":"production"}
+  HELLO set
+  HELLO set to production
+  [dotenvx] injecting env (1) from .env.production
+  executing process command [node index.js]
+  expanding process command to [/opt/homebrew/bin/node index.js]
+  Hello production
+  ```
+
+  </details>
+* <details><summary>`run --quiet`</summary><br>
+
+  Use `--quiet` to suppress all output (except errors). ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.production --quiet -- node index.js
+  Hello production
+  ```
+
+  </details>
+* <details><summary>`run --log-level`</summary><br>
+
+  Set `--log-level` to whatever you wish. For example, to supress warnings (risky), set log level to `error`:
+
+  ```sh
+  $ echo "HELLO=production" > .env.production
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.production --log-level=error -- node index.js
+  Hello production
+  ```
+
+  Available log levels are `error, warn, info, verbose, debug, silly` ([source](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+
+  </details>
+* <details><summary>`run --convention=nextjs`</summary><br>
+
+  Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
+
+  ```sh
+  $ echo "HELLO=development local" > .env.development.local
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=development" > .env.development
+  $ echo "HELLO=env" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run --convention=nextjs -- node index.js
+  [dotenvx] injecting env (1) from .env.development.local, .env.local, .env.development, .env
+  Hello development local
+  ```
+
+  (more conventions available upon request)
+
+  </details>
+* <details><summary>`get KEY`</summary><br>
+
+  Return a single environment variable's value.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx get HELLO
+  World
+  ```
+
+  </details>
+* <details><summary>`get KEY -f`</summary><br>
+
+  Return a single environment variable's value from a specific `.env` file.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "HELLO=production" > .env.production
+
+  $ dotenvx get HELLO -f .env.production
+  production
+  ```
+
+  </details>
+* <details><summary>`get KEY --env`</summary><br>
+
+  Return a single environment variable's value from a `--env` string.
+
+  ```sh
+  $ dotenvx get HELLO --env HELLO=String -f .env.production
+  String
+  ```
+
+  </details>
+
+* <details><summary>`get KEY --overload`</summary><br>
+
+  Return a single environment variable's value where each found value is overloaded.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "HELLO=production" > .env.production
+
+  $ dotenvx get HELLO -f .env.production --env HELLO=String -f .env --overload
+  World
+  ```
+
+  </details>
+* <details><summary>`get KEY --convention=nextjs`</summary><br>
+
+  Return a single environment variable's value using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
+
+  ```sh
+  $ echo "HELLO=development local" > .env.development.local
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=development" > .env.development
+  $ echo "HELLO=env" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx get HELLO --convention=nextjs
+  development local
+  ```
+
+  </details>
+* <details><summary>`get` (json)</summary><br>
+
+  Return a json response of all key/value pairs in a `.env` file.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx get
+  {"HELLO":"World"}
+  ```
+
+  </details>
+* <details><summary>`get --all`</summary><br>
+
+  Return preset machine envs as well.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx get --all
+  {"PWD":"/some/file/path","USER":"username","LIBRARY_PATH":"/usr/local/lib", ..., "HELLO":"World"}
+  ```
+
+  </details>
+* <details><summary>`get --all --pretty-print`</summary><br>
+
+  Make the output more readable - pretty print it.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx get --all --pretty-print
+  {
+    "PWD": "/some/filepath",
+    "USER": "username",
+    "LIBRARY_PATH": "/usr/local/lib",
+    ...,
+    "HELLO": "World"
+  }
+  ```
+
+  </details>
+* <details><summary>`set KEY value`</summary><br>
+
+  Set a single key/value.
+
+  ```sh
+  $ touch .env
+
+  $ dotenvx set HELLO World
+  set HELLO (.env)
+  ```
+
+  </details>
+* <details><summary>`set KEY value --encrypt`</summary><br>
+
+  Set an encrypted key/value.
+
+  ```sh
+  $ touch .env
+
+  $ dotenvx set HELLO World --encrypt
+  set HELLO with encryption (.env)
+  ```
+
+  </details>
+* <details><summary>`set KEY value -f`</summary><br>
+
+  Set an (encrypted) key/value for another `.env` file.
+
+  ```sh
+  $ touch .env.production
+
+  $ dotenvx set HELLO production --encrypt -f .env.production
+  set HELLO with encryption (.env.production)
+  ```
+
+  </details>
+* <details><summary>`set KEY "value with spaces"`</summary><br>
+
+  Set a value containing spaces.
+
+  ```sh
+  $ touch .env.ci
+
+  $ dotenvx set HELLO "my ci" -f .env.ci
+  set HELLO (.env.ci)
+  ```
+
+  </details>
+* <details><summary>`ls`</summary><br>
+
+  Print all `.env` files in a tree structure.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ls
+  ├─ .env.production
+  ├─ .env
+  └─ apps
+     └─ backend
+        └─ .env
+  ```
+
+  </details>
+* <details><summary>`ls directory`</summary><br>
+
+  Print all `.env` files inside a specified path to a directory.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ls apps/backend
+  └─ .env
+  ```
+
+  </details>
+* <details><summary>`ls -f`</summary><br>
+
+  Glob `.env` filenames matching a wildcard.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+  $ touch apps/backend/.env.prod
+
+  $ dotenvx ls -f **/.env.prod*
+  ├─ .env.production
+  └─ apps
+     └─ backend
+        └─ .env.prod
+  ```
+
+  </details>
+* <details><summary>`genexample`</summary><br>
+
+  In one command, generate a `.env.example` file from your current `.env` file contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx genexample
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`genexample -f`</summary><br>
+
+  Pass multiple `.env` files to generate your `.env.example` file from the combination of their contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "DB_HOST=example.com" > .env.production
+
+  $ dotenvx genexample -f .env -f .env.production
+  ✔ updated .env.example (2)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  DB_HOST=""
+  ```
+
+  </details>
+* <details><summary>`genexample directory`</summary><br>
+
+  Generate a `.env.example` file inside the specified directory. Useful for monorepos.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ mkdir -p apps/backend
+  $ echo "HELLO=Backend" > apps/backend/.env
+
+  $ dotenvx genexample apps/backend
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # apps/backend/.env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`gitignore`</summary><br>
+
+  Gitignore your `.env` files.
+
+  ```sh
+  $ dotenvx gitignore
+  creating .gitignore
+  appending .env* to .gitignore
+  done
+  ```
+
+  </details>
+* <details><summary>`precommit`</summary><br>
+
+  Prevent `.env` files from being committed to code.
+
+  ```sh
+  $ dotenvx precommit
+  [dotenvx][precommit] success
+  ```
+
+  </details>
+* <details><summary>`precommit --install`</summary><br>
+
+  Install a shell script to `.git/hooks/pre-commit` to prevent accidentally committing any `.env` files to source control.
+
+  ```sh
+  $ dotenvx precommit --install
+  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
+  ```
+
+  </details>
+* <details><summary>`prebuild`</summary><br>
+
+  Prevent `.env` files from being built into your docker containers.
+
+  Add it to your `Dockerfile`.
+
+  ```sh
+  RUN curl -fsS https://dotenvx.sh/ | sh
+
+  ...
+
+  RUN dotenvx prebuild
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  </details>
+* <details><summary>`scan`</summary><br>
+
+  Use [gitleaks](https://gitleaks.io) under the hood to scan for possible secrets in your code.
+
+  ```sh
+  $ dotenvx scan
+
+      ○
+      │╲
+      │ ○
+      ○ ░
+      ░    gitleaks
+
+  100 commits scanned.
+  no leaks found
+  ```
+
+  </details>
+* <details><summary>`help`</summary><br>
+
+  Output help for `dotenvx`.
+
+  ```sh
+  $ dotenvx help
+  Usage: @dotenvx/dotenvx [options] [command]
+
+  a better dotenv–from the creator of `dotenv`
+
+  Options:
+    -l, --log-level <level>           set log level (default: "info")
+    -q, --quiet                       sets log level to error
+    -v, --verbose                     sets log level to verbose
+    -d, --debug                       sets log level to debug
+    -V, --version                     output the version number
+    -h, --help                        display help for command
+
+  Commands:
+    run [options]                     inject env at runtime [dotenvx run -- yourcommand]
+    get [options] [key]               return a single environment variable
+    set [options] <KEY> <value>       set a single environment variable
+    ...
+    help [command]                    display help for command
+  ```
+
+  You can get more detailed help per command with `dotenvx help COMMAND`.
+
+  ```sh
+  $ dotenvx help run
+  Usage: @dotenvx/dotenvx run [options]
+
+  inject env at runtime [dotenvx run -- yourcommand]
+
+  Options:
+    -e, --env <strings...>            environment variable(s) set as string (example: "HELLO=World") (default: [])
+    -f, --env-file <paths...>         path(s) to your env file(s) (default: [])
+    -fv, --env-vault-file <paths...>  path(s) to your .env.vault file(s) (default: [])
+    -o, --overload                    override existing env variables
+    --convention <name>               load a .env convention (available conventions: ['nextjs'])
+    -h, --help                        display help for command
+
+  Examples:
+
+    $ dotenvx run -- npm run dev
+    $ dotenvx run -- flask --app index run
+    $ dotenvx run -- php artisan serve
+    $ dotenvx run -- bin/rails s
+
+  Try it:
+
+    $ echo "HELLO=World" > .env
+    $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+    $ dotenvx run -- node index.js
+    [dotenvx] injecting env (1) from .env
+    Hello World
+  ```
+
+  </details>
+* <details><summary>`--version`</summary><br>
+
+  Check current version of `dotenvx`.
+
+  ```sh
+  $ dotenvx --version
+  X.X.X
+  ```
+
+  </details>
 
 &nbsp;
 
