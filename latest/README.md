@@ -625,6 +625,16 @@ More examples
   ```
 
   </details>
+* <details><summary>`run` - Shell Expansion</summary><br>
+
+  Prevent your shell from expanding inline `$VARIABLES` before dotenvx has a chance to inject it. Use a subshell.
+
+  ```sh
+  $ dotenvx run --env="HELLO=World" -- sh -c 'echo Hello $HELLO'
+  Hello World
+  ```
+
+  </details>
 * <details><summary>`run` - multiple `-f` flags</summary><br>
 
   Compose multiple `.env` files for environment variables loading, as you need.
@@ -667,6 +677,82 @@ More examples
   [dotenvx] injecting env (1) from .env.local, .env
   Hello World
   ```
+
+  </details>
+* <details><summary>`DOTENV_PRIVATE_KEY=key run`</summary><br>
+  
+  Decrypt your encrypted `.env` by setting `DOTENV_PRIVATE_KEY` before `dotenvx run`.
+
+  ```sh
+  $ touch .env
+  $ dotenvx set HELLO encrypted --encrypt
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  # check your .env.keys files for your privateKey
+  $ DOTENV_PRIVATE_KEY="122...0b8" dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env
+  Hello encrypted
+  ```
+
+  </details>
+* <details><summary>`DOTENV_PRIVATE_KEY_PRODUCTION=key run`</summary><br>
+
+  Decrypt your encrypted `.env.production` by setting `DOTENV_PRIVATE_KEY_PRODUCTION` before `dotenvx run`. Alternatively, this can be already set on your server or cloud provider.
+
+  ```sh
+  $ touch .env.production
+  $ dotenvx set HELLO "production encrypted" -f .env.production --encrypt
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  # check .env.keys for your privateKey
+  $ DOTENV_PRIVATE_KEY_PRODUCTION="122...0b8" dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env.production
+  Hello production encrypted
+  ```
+
+  Note the `DOTENV_PRIVATE_KEY_PRODUCTION` ends with `_PRODUCTION`. This instructs dotenvx run to load the `.env.production` file.
+
+  </details>
+* <details><summary>`DOTENV_PRIVATE_KEY_CI=key dotenvx run`</summary><br>
+
+  Decrypt your encrypted `.env.ci` by setting `DOTENV_PRIVATE_KEY_CI` before `dotenvx run`. Alternatively, this can be already set on your server or cloud provider.
+
+  ```sh
+  $ touch .env.ci
+  $ dotenvx set HELLO "ci encrypted" -f .env.production --encrypt
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  # check .env.keys for your privateKey
+  $ DOTENV_PRIVATE_KEY_CI="122...0b8" dotenvx run -- node index.js
+  [dotenvx] injecting env (2) from .env.ci
+  Hello ci encrypted
+  ```
+
+  Note the `DOTENV_PRIVATE_KEY_CI` ends with `_CI`. This instructs dotenvx run to load the `.env.ci` file. See the pattern?
+
+  </details>
+* <details><summary>`DOTENV_PRIVATE_KEY=key DOTENV_PRIVATE_KEY_PRODUCTION=key run` - Combine Multiple</summary><br>
+
+  Decrypt your encrypted `.env` and `.env.production` files by setting `DOTENV_PRIVATE_KEY` and `DOTENV_PRIVATE_KEY_PRODUCTION` before `dotenvx run`. 
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ dotenvx set HELLO encrypted --encrypt
+  $ dotenvx set HELLO "production encrypted" -f .env.production --encrypt
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  # check .env.keys for your privateKeys
+  $ DOTENV_PRIVATE_KEY="122...0b8" DOTENV_PRIVATE_KEY_PRODUCTION="122...0b8" dotenvx run -- node index.js
+  [dotenvx] injecting env (3) from .env, .env.production
+  Hello encrypted
+
+  $ DOTENV_PRIVATE_KEY_PRODUCTION="122...0b8" DOTENV_PRIVATE_KEY="122...0b8" dotenvx run -- node index.js
+  [dotenvx] injecting env (3) from .env.production, .env
+  Hello production encrypted
+  ```
+
+  Compose any encrypted files you want this way. As long as a `DOTENV_PRIVATE_KEY_${environment}` is set, the values from `.env.${environment}` will be decrypted at runtime.
 
   </details>
 * <details><summary>`run --verbose`</summary><br>
