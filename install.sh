@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-VERSION="0.44.6"
+VERSION="0.45.0"
 DIRECTORY="/usr/local/bin"
 REGISTRY_URL="https://registry.npmjs.org"
 INSTALL_SCRIPT_URL="https://dotenvx.sh/install.sh"
@@ -41,13 +41,13 @@ INSTALL_SCRIPT_URL="https://dotenvx.sh/install.sh"
 #  |  ```sh                                                                                          |
 #  |  # curl examples                                                                                |
 #  |  curl -sfS "https://dotenvx.sh/install.sh" | sudo sh                                            |
-#  |  curl -sfS "https://dotenvx.sh/install.sh?directory=." | sh                                     |
 #  |  curl -sfS "https://dotenvx.sh/install.sh?version=0.44.0" | sh                                  |
+#  |  curl -sfS "https://dotenvx.sh/install.sh?directory=." | sh                                     |
 #  |  curl -sfS "https://dotenvx.sh/install.sh?directory=/custom/path&version=0.44.0" | sh           |
 #  |                                                                                                 |
 #  |  # self-executing examples                                                                      |
-#  |  ./install.sh --directory=.                                                                     |
 #  |  ./install.sh --version=0.44.0                                                                  |
+#  |  ./install.sh --directory=.                                                                     |
 #  |  ./install.sh --directory=/custom/path --version=0.44.0                                         |
 #  |  ./install.sh --help                                                                            |
 #  |  ```                                                                                            |
@@ -87,17 +87,17 @@ usage() {
 # machine checks ------------------------
 is_version_valid() {
   if [ -z "$VERSION" ]; then
-    echo "[INSTALLATION_FAILED] VERSION is blank in install.sh script"
+    echo "[INSTALLATION_FAILED] VERSION ($VERSION) is blank in install.sh script"
     echo "? set VERSION to valid semantic semver version and try again"
 
     return 1
   fi
 
   local semver_regex="^([0-9]+)\.([0-9]+)\.([0-9]+)$"
-  if [[ "$VERSION" =~ $semver_regex ]]; then
+  if echo "$VERSION" | grep -Eq "$semver_regex"; then
     return 0
   else
-    echo "[INSTALLATION_FAILED] VERSION is not a valid semantic version in install.sh script"
+    echo "[INSTALLATION_FAILED] VERSION ($VERSION) is not a valid semantic version in install.sh script"
     echo "? set VERSION to valid semantic semver version and try again"
 
     return 1
