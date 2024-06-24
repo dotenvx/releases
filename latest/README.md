@@ -1,4 +1,4 @@
-![dotenvx](https://dotenvx.com/better-banner.png)
+[![dotenvx](https://dotenvx.com/better-banner.png)](https://dotenvx.com)
 
 *a better dotenv*–from the creator of [`dotenv`](https://github.com/motdotla/dotenv).
 
@@ -9,7 +9,7 @@
 &nbsp;
 
 
-### Quickstart [![NPM version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg?style=flat-square)](https://www.npmjs.com/package/@dotenvx/dotenvx)
+### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![npm installs](https://img.shields.io/npm/dm/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
 
 Install and use it in code just like `dotenv`.
 
@@ -25,16 +25,63 @@ console.log(`Hello ${process.env.HELLO}`)
 
 &nbsp;
 
-Or install globally
+or install globally - *unlocks dotenv for any language, framework, or platform!*
+
+<details><summary>with brew 🍺</summary><br>
 
 ```sh
 brew install dotenvx/brew/dotenvx
+dotenvx help
 ```
-> * [other global ways to install](https://dotenvx.com/docs/install)
->
-> Install globally as a cli to unlock dotenv for ANY language, framework, or platform. 💥
->
-> I am using (and recommending) this approach going forward. – [motdotla](https://github.com/motdotla)
+
+[![brew installs](https://img.shields.io/github/downloads/dotenvx/dotenvx/total?label=brew%20installs)](https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb)
+<sup>*homebrew installs sourced from github releases - <a href="https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb">formula</a></sup>
+
+&nbsp;
+
+</details>
+
+<details><summary>with curl 🌐 </summary><br>
+
+```sh
+curl -sfS https://dotenvx.sh | sh
+dotenvx help
+```
+
+[![mac](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/darwin&label=mac)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
+[![linux](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/linux&label=linux)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
+[![windows](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/windows&label=windows)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
+<sup>*curl installs sourced from npm binary packages - <a href="https://www.npmjs.com/package/@dotenvx/dotenvx-linux-x86_64">example</a></sup>
+
+&nbsp;
+
+</details>
+
+<details><summary>with docker 🐳</summary><br>
+
+```sh
+docker run -it --rm -v $(pwd):/app dotenv/dotenvx help
+```
+
+[![docker pulls](https://img.shields.io/docker/pulls/dotenv/dotenvx)](https://hub.docker.com/r/dotenv/dotenvx)
+
+&nbsp;
+
+</details>
+
+<details><summary>or with github releases 🐙</summary><br>
+
+```sh
+curl -L -o dotenvx.tar.gz "https://github.com/dotenvx/dotenvx/releases/latest/download/dotenvx-$(uname -s)-$(uname -m).tar.gz"
+tar -xzf dotenvx.tar.gz
+./dotenvx help
+```
+
+[![github releases](https://img.shields.io/github/downloads/dotenvx/dotenvx/total)](https://github.com/dotenvx/dotenvx/releases)
+<sup>*includes homebrew installs</sup>
+
+</details>
+
 
 &nbsp;
 
@@ -83,7 +130,6 @@ More examples
   ```
 
   </details>
-
 * <details><summary>Deno 🦕</summary><br>
 
   ```sh
@@ -97,6 +143,7 @@ More examples
   Hello World
   ```
 
+  </details>
 * <details><summary>Bun 🥟</summary><br>
 
   ```sh
@@ -110,6 +157,7 @@ More examples
   Hello Test
   ```
 
+  </details>
 * <details><summary>Python 🐍</summary><br>
 
   ```sh
@@ -247,7 +295,6 @@ More examples
   see [docker guide](https://dotenvx.com/docs/platforms/docker)
 
   </details>
-
 * <details><summary>CI/CDs 🐙</summary><br>
 
   ```yaml
@@ -298,7 +345,6 @@ More examples
   see [process manager guides](https://dotenvx.com/docs#process-managers)
 
   </details>
-
 * <details><summary>npx</summary><br>
 
   ```sh
@@ -337,7 +383,6 @@ More examples
   ```
 
   </details>
-
 * <details><summary>Git</summary><br>
 
   ```sh
@@ -512,14 +557,14 @@ More examples
 
 ## Encryption
 
-> Add encryption to your `.env` files with a single command. Pass the `--encrypt` flag.
+> Add encryption to your `.env` files with a single command. Use `dotenvx encrypt`.
 
 ```sh
-$ dotenvx set HELLO World --encrypt
-set HELLO with encryption (.env)
+$ dotenvx encrypt
+✔ encrypted (.env)
 ```
 
-![](https://github.com/dotenvx/dotenvx/assets/3848/21f7a529-7a40-44e4-87d4-a72e1637b702)
+![encrypted .env](https://github.com/dotenvx/dotenvx/assets/3848/2a8c3dc5-cd8e-4a08-8a59-c24d0535c81a)
 
 > A `DOTENV_PUBLIC_KEY` (encryption key) and a `DOTENV_PRIVATE_KEY` (decryption key) are generated using the same public-key cryptography as [Bitcoin](https://en.bitcoin.it/wiki/Secp256k1).
 
@@ -528,7 +573,8 @@ More examples
 * <details><summary>`.env`</summary><br>
 
   ```sh
-  $ dotenvx set HELLO World --encrypt
+  $ echo "HELLO=World" > .env
+  $ dotenvx encrypt
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   $ dotenvx run -- node index.js
@@ -536,10 +582,12 @@ More examples
   Hello World
   ```
 
+  </details>
 * <details><summary>`.env.production`</summary><br>
 
   ```sh
-  $ dotenvx set HELLO Production --encrypt -f .env.production
+  $ echo "HELLO=Production" > .env.production
+  $ dotenvx encrypt -f .env.production
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   $ DOTENV_PRIVATE_KEY_PRODUCTION="<.env.production private key>" dotenvx run -- node index.js
@@ -549,10 +597,12 @@ More examples
 
   Note the `DOTENV_PRIVATE_KEY_PRODUCTION` ends with `_PRODUCTION`. This instructs `dotenvx run` to load the `.env.production` file.
 
+  </details>
 * <details><summary>`.env.ci`</summary><br>
 
   ```sh
-  $ dotenvx set HELLO Ci --encrypt -f .env.ci
+  $ echo "HELLO=Ci" > .env.ci
+  $ dotenvx encrypt -f .env.ci
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   $ DOTENV_PRIVATE_KEY_CI="<.env.ci private key>" dotenvx run -- node index.js
@@ -562,11 +612,12 @@ More examples
 
   Note the `DOTENV_PRIVATE_KEY_CI` ends with `_CI`. This instructs `dotenvx run` to load the `.env.ci` file. See the pattern?
 
+  </details>
 * <details><summary>combine multiple encrypted .env files</summary><br>
 
   ```sh
-  $ dotenvx set HELLO World --encrypt -f .env
-  $ dotenvx set HELLO Production --encrypt -f .env.production
+  $ dotenvx set HELLO World -f .env
+  $ dotenvx set HELLO Production -f .env.production
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   $ DOTENV_PRIVATE_KEY="<.env private key>" DOTENV_PRIVATE_KEY_PRODUCTION="<.env.production private key>" dotenvx run -- node index.js
@@ -576,15 +627,220 @@ More examples
 
   Note the `DOTENV_PRIVATE_KEY` instructs `dotenvx run` to load the `.env` file and the `DOTENV_PRIVATE_KEY_PRODUCTION` instructs it to load the `.env.production` file. See the pattern?
 
+  </details>
+* <details><summary>combine multiple encrypted .env files for monorepo</summary><br>
+
+  ```sh
+  $ mkdir app1
+  $ mkdir app2
+  $ dotenvx set HELLO app1 -f app1/.env.ci
+  $ dotenvx set HELLO app2 -f app2/.env.ci
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ DOTENV_PRIVATE_KEY_CI="<app1/privat ci key>,<app2/private ci key>" dotenvx run -f app1/.env.ci -f app2/.env.ci -- node index.js
+  [dotenvx] injecting env (2) from app1/.env.ci,app2/.env.ci
+  Hello app1
+
+  $ DOTENV_PRIVATE_KEY_CI="<app1/privat ci key>,<app2/private ci key>" dotenvx run -f app1/.env.ci -f app2/.env.ci --overload -- node index.js
+  [dotenvx] injecting env (2) from app1/.env.ci,app2/.env.ci
+  Hello app2
+  ```
+
+  Note the `DOTENV_PRIVATE_KEY_CI` (and any `DOTENV_PRIVATE_KEY*`) can take multiple private keys by simply comma separating them.
+
+  </details>
 * <details><summary>other curves</summary><br>
 
   > `secp256k1` is a well-known and battle tested curve, in use with Bitcoin and other cryptocurrencies, but we are open to adding support for more curves.
   > 
   > If your organization's compliance department requires [NIST approved curves](https://csrc.nist.gov/projects/elliptic-curve-cryptography) or other curves like `curve25519`, please reach out at [security@dotenvx.com](mailto:security@dotenvx.com).
 
+  </details>
+
 &nbsp;
 
-## Advanced usage
+## More
+
+> Go deeper with [extensions](#extensions-), [advaned usage](#advanced-usage-), and [guides](#guides-).
+
+### Extensions 🔌
+
+* <details><summary>`ext ls`</summary><br>
+
+  Print all `.env` files in a tree structure.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ext ls
+  ├─ .env.production
+  ├─ .env
+  └─ apps
+     └─ backend
+        └─ .env
+  ```
+
+  </details>
+* <details><summary>`ext ls directory`</summary><br>
+
+  Print all `.env` files inside a specified path to a directory.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ext ls apps/backend
+  └─ .env
+  ```
+
+  </details>
+* <details><summary>`ext ls -f`</summary><br>
+
+  Glob `.env` filenames matching a wildcard.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+  $ touch apps/backend/.env.prod
+
+  $ dotenvx ext ls -f **/.env.prod*
+  ├─ .env.production
+  └─ apps
+     └─ backend
+        └─ .env.prod
+  ```
+
+  </details>
+* <details><summary>`ext genexample`</summary><br>
+
+  In one command, generate a `.env.example` file from your current `.env` file contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx ext genexample
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`ext genexample -f`</summary><br>
+
+  Pass multiple `.env` files to generate your `.env.example` file from the combination of their contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "DB_HOST=example.com" > .env.production
+
+  $ dotenvx ext genexample -f .env -f .env.production
+  ✔ updated .env.example (2)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  DB_HOST=""
+  ```
+
+  </details>
+* <details><summary>`ext genexample directory`</summary><br>
+
+  Generate a `.env.example` file inside the specified directory. Useful for monorepos.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ mkdir -p apps/backend
+  $ echo "HELLO=Backend" > apps/backend/.env
+
+  $ dotenvx ext genexample apps/backend
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # apps/backend/.env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`ext gitignore`</summary><br>
+
+  Gitignore your `.env` files.
+
+  ```sh
+  $ dotenvx ext gitignore
+  creating .gitignore
+  appending .env* to .gitignore
+  done
+  ```
+
+  </details>
+* <details><summary>`ext precommit`</summary><br>
+
+  Prevent `.env` files from being committed to code.
+
+  ```sh
+  $ dotenvx ext precommit
+  [dotenvx][precommit] success
+  ```
+
+  </details>
+* <details><summary>`ext precommit --install`</summary><br>
+
+  Install a shell script to `.git/hooks/pre-commit` to prevent accidentally committing any `.env` files to source control.
+
+  ```sh
+  $ dotenvx ext precommit --install
+  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
+  ```
+
+  </details>
+* <details><summary>`ext prebuild`</summary><br>
+
+  Prevent `.env` files from being built into your docker containers.
+
+  Add it to your `Dockerfile`.
+
+  ```sh
+  RUN curl -fsS https://dotenvx.sh | sh
+
+  ...
+
+  RUN dotenvx ext prebuild
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  </details>
+* <details><summary>`ext scan`</summary><br>
+
+  Use [gitleaks](https://gitleaks.io) under the hood to scan for possible secrets in your code.
+
+  ```sh
+  $ dotenvx ext scan
+
+      ○
+      │╲
+      │ ○
+      ○ ░
+      ░    gitleaks
+
+  100 commits scanned.
+  no leaks found
+  ```
+
+  </details>
+
+### Advanced usage 🎓
 
 * <details><summary>`run` - Variable Expansion</summary><br>
 
@@ -685,7 +941,7 @@ More examples
 
   ```sh
   $ touch .env
-  $ dotenvx set HELLO encrypted --encrypt
+  $ dotenvx set HELLO encrypted
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   # check your .env.keys files for your privateKey
@@ -701,7 +957,7 @@ More examples
 
   ```sh
   $ touch .env.production
-  $ dotenvx set HELLO "production encrypted" -f .env.production --encrypt
+  $ dotenvx set HELLO "production encrypted" -f .env.production
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   # check .env.keys for your privateKey
@@ -719,7 +975,7 @@ More examples
 
   ```sh
   $ touch .env.ci
-  $ dotenvx set HELLO "ci encrypted" -f .env.production --encrypt
+  $ dotenvx set HELLO "ci encrypted" -f .env.production
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   # check .env.keys for your privateKey
@@ -738,8 +994,8 @@ More examples
   ```sh
   $ touch .env
   $ touch .env.production
-  $ dotenvx set HELLO encrypted --encrypt
-  $ dotenvx set HELLO "production encrypted" -f .env.production --encrypt
+  $ dotenvx set HELLO encrypted
+  $ dotenvx set HELLO "production encrypted" -f .env.production
   $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
 
   # check .env.keys for your privateKeys
@@ -949,24 +1205,12 @@ More examples
   </details>
 * <details><summary>`set KEY value`</summary><br>
 
-  Set a single key/value.
+  Set an encrypted key/value (on by default).
 
   ```sh
   $ touch .env
 
   $ dotenvx set HELLO World
-  set HELLO (.env)
-  ```
-
-  </details>
-* <details><summary>`set KEY value --encrypt`</summary><br>
-
-  Set an encrypted key/value.
-
-  ```sh
-  $ touch .env
-
-  $ dotenvx set HELLO World --encrypt
   set HELLO with encryption (.env)
   ```
 
@@ -978,7 +1222,7 @@ More examples
   ```sh
   $ touch .env.production
 
-  $ dotenvx set HELLO production --encrypt -f .env.production
+  $ dotenvx set HELLO production -f .env.production
   set HELLO with encryption (.env.production)
   ```
 
@@ -991,18 +1235,30 @@ More examples
   $ touch .env.ci
 
   $ dotenvx set HELLO "my ci" -f .env.ci
-  set HELLO (.env.ci)
+  set HELLO with encryption (.env.ci)
   ```
 
   </details>
-* <details><summary>`convert`</summary><br>
+* <details><summary>`set KEY value --plain`</summary><br>
 
-  Convert a `.env` file to an encrypted `.env` file.
+  Set a plaintext key/value.
+
+  ```sh
+  $ touch .env
+
+  $ dotenvx set HELLO World --plain
+  set HELLO (.env)
+  ```
+
+  </details>
+* <details><summary>`encrypt`</summary><br>
+
+  Encrypt the contents of a `.env` file to an encrypted `.env` file.
 
   ```sh
   $ echo "HELLO=World" > .env
 
-  $ dotenvx convert
+  $ dotenvx encrypt
   ✔ encrypted (.env)
   ✔ key added to .env.keys (DOTENV_PRIVATE_KEY)
   ℹ add .env.keys to .gitignore: [echo ".env.keys" >> .gitignore]
@@ -1010,193 +1266,19 @@ More examples
   ```
 
   </details>
-* <details><summary>`convert -f`</summary><br>
+* <details><summary>`encrypt -f`</summary><br>
 
-  Convert a specified `.env` file to an encrypted `.env` file.
+  Encrypt the contents of a specified `.env` file to an encrypted `.env` file.
 
   ```sh
   $ echo "HELLO=World" > .env
   $ echo "HELLO=Production" > .env.production
 
-  $ dotenvx convert -f .env.production
+  $ dotenvx encrypt -f .env.production
   ✔ encrypted (.env.production)
   ✔ key added to .env.keys (DOTENV_PRIVATE_KEY_PRODUCTION)
   ℹ add .env.keys to .gitignore: [echo ".env.keys" >> .gitignore]
   ℹ run [DOTENV_PRIVATE_KEY_PRODUCTION='bff..bc4' dotenvx run -- yourcommand] to test decryption locally
-  ```
-
-  </details>
-* <details><summary>`ls`</summary><br>
-
-  Print all `.env` files in a tree structure.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-
-  $ dotenvx ls
-  ├─ .env.production
-  ├─ .env
-  └─ apps
-     └─ backend
-        └─ .env
-  ```
-
-  </details>
-* <details><summary>`ls directory`</summary><br>
-
-  Print all `.env` files inside a specified path to a directory.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-
-  $ dotenvx ls apps/backend
-  └─ .env
-  ```
-
-  </details>
-* <details><summary>`ls -f`</summary><br>
-
-  Glob `.env` filenames matching a wildcard.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-  $ touch apps/backend/.env.prod
-
-  $ dotenvx ls -f **/.env.prod*
-  ├─ .env.production
-  └─ apps
-     └─ backend
-        └─ .env.prod
-  ```
-
-  </details>
-* <details><summary>`genexample`</summary><br>
-
-  In one command, generate a `.env.example` file from your current `.env` file contents.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-
-  $ dotenvx genexample
-  ✔ updated .env.example (1)
-  ```
-
-  ```ini
-  # .env.example
-  HELLO=""
-  ```
-
-  </details>
-* <details><summary>`genexample -f`</summary><br>
-
-  Pass multiple `.env` files to generate your `.env.example` file from the combination of their contents.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-  $ echo "DB_HOST=example.com" > .env.production
-
-  $ dotenvx genexample -f .env -f .env.production
-  ✔ updated .env.example (2)
-  ```
-
-  ```ini
-  # .env.example
-  HELLO=""
-  DB_HOST=""
-  ```
-
-  </details>
-* <details><summary>`genexample directory`</summary><br>
-
-  Generate a `.env.example` file inside the specified directory. Useful for monorepos.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-  $ mkdir -p apps/backend
-  $ echo "HELLO=Backend" > apps/backend/.env
-
-  $ dotenvx genexample apps/backend
-  ✔ updated .env.example (1)
-  ```
-
-  ```ini
-  # apps/backend/.env.example
-  HELLO=""
-  ```
-
-  </details>
-* <details><summary>`gitignore`</summary><br>
-
-  Gitignore your `.env` files.
-
-  ```sh
-  $ dotenvx gitignore
-  creating .gitignore
-  appending .env* to .gitignore
-  done
-  ```
-
-  </details>
-* <details><summary>`precommit`</summary><br>
-
-  Prevent `.env` files from being committed to code.
-
-  ```sh
-  $ dotenvx precommit
-  [dotenvx][precommit] success
-  ```
-
-  </details>
-* <details><summary>`precommit --install`</summary><br>
-
-  Install a shell script to `.git/hooks/pre-commit` to prevent accidentally committing any `.env` files to source control.
-
-  ```sh
-  $ dotenvx precommit --install
-  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
-  ```
-
-  </details>
-* <details><summary>`prebuild`</summary><br>
-
-  Prevent `.env` files from being built into your docker containers.
-
-  Add it to your `Dockerfile`.
-
-  ```sh
-  RUN curl -fsS https://dotenvx.sh/install.sh | sh
-
-  ...
-
-  RUN dotenvx prebuild
-  CMD ["dotenvx", "run", "--", "node", "index.js"]
-  ```
-
-  </details>
-* <details><summary>`scan`</summary><br>
-
-  Use [gitleaks](https://gitleaks.io) under the hood to scan for possible secrets in your code.
-
-  ```sh
-  $ dotenvx scan
-
-      ○
-      │╲
-      │ ○
-      ○ ░
-      ░    gitleaks
-
-  100 commits scanned.
-  no leaks found
   ```
 
   </details>
@@ -1222,7 +1304,9 @@ More examples
     run [options]                     inject env at runtime [dotenvx run -- yourcommand]
     get [options] [key]               return a single environment variable
     set [options] <KEY> <value>       set a single environment variable
-    ...
+    encrypt [options]                 convert .env file(s) to encrypted .env file(s)
+    pro                               🏆 pro
+    ext                               🔌 extensions
     help [command]                    display help for command
   ```
 
@@ -1271,9 +1355,7 @@ More examples
 
   </details>
 
-&nbsp;
-
-## Guides
+### Guides 📖
 
 * [quickstart guides](https://dotenvx.com/docs/quickstart)
   * [run anywhere](https://dotenvx.com/docs/quickstart/run)
@@ -1284,6 +1366,7 @@ More examples
   * [frameworks](https://dotenvx.com/docs#frameworks)
   * [platforms](https://dotenvx.com/docs#platforms)
   * [ci/cd](https://dotenvx.com/docs#cis)
+
 
 &nbsp;
 
