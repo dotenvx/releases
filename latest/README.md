@@ -659,188 +659,10 @@ More examples
 
 &nbsp;
 
-## More
+## Advanced
 
-> Go deeper with [extensions](#extensions-), [advaned usage](#advanced-usage-), and [guides](#guides-).
-
-### Extensions 🔌
-
-* <details><summary>`ext ls`</summary><br>
-
-  Print all `.env` files in a tree structure.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-
-  $ dotenvx ext ls
-  ├─ .env.production
-  ├─ .env
-  └─ apps
-     └─ backend
-        └─ .env
-  ```
-
-  </details>
-* <details><summary>`ext ls directory`</summary><br>
-
-  Print all `.env` files inside a specified path to a directory.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-
-  $ dotenvx ext ls apps/backend
-  └─ .env
-  ```
-
-  </details>
-* <details><summary>`ext ls -f`</summary><br>
-
-  Glob `.env` filenames matching a wildcard.
-
-  ```sh
-  $ touch .env
-  $ touch .env.production
-  $ mkdir -p apps/backend
-  $ touch apps/backend/.env
-  $ touch apps/backend/.env.prod
-
-  $ dotenvx ext ls -f **/.env.prod*
-  ├─ .env.production
-  └─ apps
-     └─ backend
-        └─ .env.prod
-  ```
-
-  </details>
-* <details><summary>`ext genexample`</summary><br>
-
-  In one command, generate a `.env.example` file from your current `.env` file contents.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-
-  $ dotenvx ext genexample
-  ✔ updated .env.example (1)
-  ```
-
-  ```ini
-  # .env.example
-  HELLO=""
-  ```
-
-  </details>
-* <details><summary>`ext genexample -f`</summary><br>
-
-  Pass multiple `.env` files to generate your `.env.example` file from the combination of their contents.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-  $ echo "DB_HOST=example.com" > .env.production
-
-  $ dotenvx ext genexample -f .env -f .env.production
-  ✔ updated .env.example (2)
-  ```
-
-  ```ini
-  # .env.example
-  HELLO=""
-  DB_HOST=""
-  ```
-
-  </details>
-* <details><summary>`ext genexample directory`</summary><br>
-
-  Generate a `.env.example` file inside the specified directory. Useful for monorepos.
-
-  ```sh
-  $ echo "HELLO=World" > .env
-  $ mkdir -p apps/backend
-  $ echo "HELLO=Backend" > apps/backend/.env
-
-  $ dotenvx ext genexample apps/backend
-  ✔ updated .env.example (1)
-  ```
-
-  ```ini
-  # apps/backend/.env.example
-  HELLO=""
-  ```
-
-  </details>
-* <details><summary>`ext gitignore`</summary><br>
-
-  Gitignore your `.env` files.
-
-  ```sh
-  $ dotenvx ext gitignore
-  creating .gitignore
-  appending .env* to .gitignore
-  done
-  ```
-
-  </details>
-* <details><summary>`ext precommit`</summary><br>
-
-  Prevent `.env` files from being committed to code.
-
-  ```sh
-  $ dotenvx ext precommit
-  [dotenvx][precommit] success
-  ```
-
-  </details>
-* <details><summary>`ext precommit --install`</summary><br>
-
-  Install a shell script to `.git/hooks/pre-commit` to prevent accidentally committing any `.env` files to source control.
-
-  ```sh
-  $ dotenvx ext precommit --install
-  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
-  ```
-
-  </details>
-* <details><summary>`ext prebuild`</summary><br>
-
-  Prevent `.env` files from being built into your docker containers.
-
-  Add it to your `Dockerfile`.
-
-  ```sh
-  RUN curl -fsS https://dotenvx.sh | sh
-
-  ...
-
-  RUN dotenvx ext prebuild
-  CMD ["dotenvx", "run", "--", "node", "index.js"]
-  ```
-
-  </details>
-* <details><summary>`ext scan`</summary><br>
-
-  Use [gitleaks](https://gitleaks.io) under the hood to scan for possible secrets in your code.
-
-  ```sh
-  $ dotenvx ext scan
-
-      ○
-      │╲
-      │ ○
-      ○ ░
-      ░    gitleaks
-
-  100 commits scanned.
-  no leaks found
-  ```
-
-  </details>
-
-### Advanced usage 🎓
+> Become a `dotenvx` power user.
+>
 
 * <details><summary>`run` - Variable Expansion</summary><br>
 
@@ -1355,18 +1177,208 @@ More examples
 
   </details>
 
-### Guides 📖
+### Extensions 🔌
 
-* [quickstart guides](https://dotenvx.com/docs/quickstart)
-  * [run anywhere](https://dotenvx.com/docs/quickstart/run)
-  * [multi-environment](https://dotenvx.com/docs/quickstart/environments)
-  * [encrypted envs](https://dotenvx.com/docs/quickstart/encryption)
-* [dotenvx/docs](https://dotenvx.com/docs)
-  * [languages](https://dotenvx.com/docs#languages)
-  * [frameworks](https://dotenvx.com/docs#frameworks)
-  * [platforms](https://dotenvx.com/docs#platforms)
-  * [ci/cd](https://dotenvx.com/docs#cis)
+* <details><summary>`ext ls`</summary><br>
 
+  Print all `.env` files in a tree structure.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ext ls
+  ├─ .env.production
+  ├─ .env
+  └─ apps
+     └─ backend
+        └─ .env
+  ```
+
+  </details>
+* <details><summary>`ext ls directory`</summary><br>
+
+  Print all `.env` files inside a specified path to a directory.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+
+  $ dotenvx ext ls apps/backend
+  └─ .env
+  ```
+
+  </details>
+* <details><summary>`ext ls -f`</summary><br>
+
+  Glob `.env` filenames matching a wildcard.
+
+  ```sh
+  $ touch .env
+  $ touch .env.production
+  $ mkdir -p apps/backend
+  $ touch apps/backend/.env
+  $ touch apps/backend/.env.prod
+
+  $ dotenvx ext ls -f **/.env.prod*
+  ├─ .env.production
+  └─ apps
+     └─ backend
+        └─ .env.prod
+  ```
+
+  </details>
+* <details><summary>`ext genexample`</summary><br>
+
+  In one command, generate a `.env.example` file from your current `.env` file contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+
+  $ dotenvx ext genexample
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`ext genexample -f`</summary><br>
+
+  Pass multiple `.env` files to generate your `.env.example` file from the combination of their contents.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "DB_HOST=example.com" > .env.production
+
+  $ dotenvx ext genexample -f .env -f .env.production
+  ✔ updated .env.example (2)
+  ```
+
+  ```ini
+  # .env.example
+  HELLO=""
+  DB_HOST=""
+  ```
+
+  </details>
+* <details><summary>`ext genexample directory`</summary><br>
+
+  Generate a `.env.example` file inside the specified directory. Useful for monorepos.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ mkdir -p apps/backend
+  $ echo "HELLO=Backend" > apps/backend/.env
+
+  $ dotenvx ext genexample apps/backend
+  ✔ updated .env.example (1)
+  ```
+
+  ```ini
+  # apps/backend/.env.example
+  HELLO=""
+  ```
+
+  </details>
+* <details><summary>`ext gitignore`</summary><br>
+
+  Gitignore your `.env` files.
+
+  ```sh
+  $ dotenvx ext gitignore
+  creating .gitignore
+  appending .env* to .gitignore
+  done
+  ```
+
+  </details>
+* <details><summary>`ext precommit`</summary><br>
+
+  Prevent `.env` files from being committed to code.
+
+  ```sh
+  $ dotenvx ext precommit
+  [dotenvx][precommit] success
+  ```
+
+  </details>
+* <details><summary>`ext precommit --install`</summary><br>
+
+  Install a shell script to `.git/hooks/pre-commit` to prevent accidentally committing any `.env` files to source control.
+
+  ```sh
+  $ dotenvx ext precommit --install
+  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
+  ```
+
+  </details>
+* <details><summary>`ext prebuild`</summary><br>
+
+  Prevent `.env` files from being built into your docker containers.
+
+  Add it to your `Dockerfile`.
+
+  ```sh
+  RUN curl -fsS https://dotenvx.sh | sh
+
+  ...
+
+  RUN dotenvx ext prebuild
+  CMD ["dotenvx", "run", "--", "node", "index.js"]
+  ```
+
+  </details>
+* <details><summary>`ext scan`</summary><br>
+
+  Use [gitleaks](https://gitleaks.io) under the hood to scan for possible secrets in your code.
+
+  ```sh
+  $ dotenvx ext scan
+
+      ○
+      │╲
+      │ ○
+      ○ ░
+      ░    gitleaks
+
+  100 commits scanned.
+  no leaks found
+  ```
+
+  </details>
+
+&nbsp;
+
+## Guides
+
+> Go deeper into using `dotenvx` with detailed framework and platform guides.
+>
+
+* <a href="https://dotenvx.com/docs/platforms/digital-ocean">Digital Ocean <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/digitalocean.svg" alt="Digital Ocean Logo" width="20" height="20" style="fill:#0080FF;"></a>
+* <a href="https://dotenvx.com/docs/platforms/docker">Docker <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/docker.svg" alt="Docker Logo" width="20" height="20" style="fill:#2496ED;"></a>
+* <a href="https://dotenvx.com/docs/platforms/fly">Fly.io</a>
+* <a href="https://dotenvx.com/docs/cis/github-actions">GitHub Actions <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg" alt="GitHub Logo" width="20" height="20" style="fill:#181717;"></a>
+* <a href="https://dotenvx.com/docs/platforms/heroku">Heroku <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/heroku.svg" alt="Heroku Logo" width="20" height="20" style="fill:#430098;"></a>
+* <a href="https://dotenvx.com/docs/platforms/netlify">Netlify <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/netlify.svg" alt="Netlify Logo" width="20" height="20" style="fill:#00C7B7;"></a>
+* <a href="https://dotenvx.com/docs/package-managers/npm">NPM <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/npm.svg" alt="NPM Logo" width="20" height="20" style="fill:#CB3837;"></a>
+* <a href="https://dotenvx.com/docs/monorepos/nx">Nx <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nx.svg" alt="Nx Logo" width="20" height="20" style="fill:#143055;"></a>
+* <a href="https://dotenvx.com/docs/platforms/render">Render <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/render.svg" alt="Render Logo" width="20" height="20" style="fill:#000000;"></a>
+* <a href="https://dotenvx.com/docs/platforms/railway">Railway <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/railway.svg" alt="Railway Logo" width="20" height="20" style="fill:#0B0D0E;"></a>
+* <a href="https://dotenvx.com/docs/monorepos/turborepo">Turborepo <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/turborepo.svg" alt="Turborepo Logo" width="20" height="20" style="fill:#EF4444;"></a>
+* <a href="https://dotenvx.com/docs/platforms/vercel">Vercel <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/vercel.svg" alt="Vercel Logo" width="20" height="20" style="fill:#000000;"></a>
+* [more](https://dotenvx.com/docs/guides)
+  * <a href="https://dotenvx.com/docs/guides#node-js">Node.js <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nodejs.svg" alt="Node.js Logo" width="20" height="20" style="fill:#5FA04E;"></a>
+  * <a href="https://dotenvx.com/docs/guides#python">Python <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/python.svg" alt="Python Logo" width="20" height="20" style="fill:#3776AB;"></a>
+  * <a href="https://dotenvx.com/docs/guides#php">PHP <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/php.svg" alt="PHP Logo" width="20" height="20" style="fill:#777BB4;"></a>
+  * <a href="https://dotenvx.com/docs/guides#ruby">Ruby <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ruby.svg" alt="Ruby Logo" width="20" height="20" style="fill:#CC342D;"></a>
+  * <a href="https://dotenvx.com/docs/guides#rust">Rust <img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/rust.svg" alt="Rust Logo" width="20" height="20" style="fill:#000000;"></a>
 
 &nbsp;
 
