@@ -9,7 +9,7 @@
 &nbsp;
 
 
-### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![npm installs](https://img.shields.io/npm/dm/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
+### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![test count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/motdotenv/bb76445765a9731e7d824a6efdf53524/raw/dotenvxTestCount.json)](https://github.com/dotenvx/dotenvx/tree/main/tests) [![npm installs](https://img.shields.io/npm/dm/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
 
 Install and use it in code just like `dotenv`.
 
@@ -230,6 +230,17 @@ More examples
   $ echo 'public class Index { public static void main(String[] args) { System.out.println("Hello " + System.getenv("HELLO")); } }' > index.java
 
   $ dotenvx run -- java index.java
+  Hello World
+  ```
+
+  </details>
+* <details><summary>Clojure 🌿</summary><br>
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo '(println "Hello" (System/getenv "HELLO"))' > index.clj
+
+  $ dotenvx run -- clojure -M index.clj
   Hello World
   ```
 
