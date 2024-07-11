@@ -9,7 +9,7 @@
 &nbsp;
 
 
-### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![test count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/motdotenv/bb76445765a9731e7d824a6efdf53524/raw/dotenvxTestCount.json)](https://github.com/dotenvx/dotenvx/tree/main/tests) [![npm installs](https://img.shields.io/npm/dm/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
+### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![test count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/motdotenv/bb76445765a9731e7d824a6efdf53524/raw/dotenvxTestCount.json)](https://github.com/dotenvx/dotenvx/tree/main/tests) [![npm installs](https://img.shields.io/npm/dt/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
 
 Install and use it in code just like `dotenv`.
 
@@ -660,6 +660,16 @@ More examples
   Note the `DOTENV_PRIVATE_KEY_CI` (and any `DOTENV_PRIVATE_KEY*`) can take multiple private keys by simply comma separating them.
 
   </details>
+* <details><summary>`--stdout`</summary><br>
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenvx encrypt --stdout
+  $ dotenvx encrypt --stdout > .env.encrypted
+  ```
+
+  </details>
+
 * <details><summary>other curves</summary><br>
 
   > `secp256k1` is a well-known and battle tested curve, in use with Bitcoin and other cryptocurrencies, but we are open to adding support for more curves.
@@ -1139,6 +1149,81 @@ More examples
   ```
 
   </details>
+* <details><summary>`encrypt --stdout`</summary><br>
+
+  Encrypt the contents of a `.env` file and send to stdout.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenvx encrypt --stdout
+  #/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+  #/            public-key encryption for .env files          /
+  #/       [how it works](https://dotenvx.com/encryption)     /
+  #/----------------------------------------------------------/
+  DOTENV_PUBLIC_KEY="034af93e93708b994c10f236c96ef88e47291066946cce2e8d98c9e02c741ced45"
+  # .env
+  HELLO="encrypted:BDqDBibm4wsYqMpCjTQ6BsDHmMadg9K3dAt+Z9HPMfLEIRVz50hmLXPXRuDBXaJi/LwWYEVUNiq0HISrslzQPaoyS8Lotg3gFWJTsNCdOWnqpjF2xNUX2RQiP05kAbEXM6MWVjDr"
+  ```
+
+  or send to a file:
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenvx encrypt --stdout > somefile.txt
+  ```
+
+  </details>
+* <details><summary>`decrypt`</summary><br>
+
+  Decrypt the contents of an encrypted `.env` file to an unencrypted `.env` file.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenvx encrypt
+  ✔ encrypted (.env)
+  $ dotenvx decrypt
+  ✔ decrypted (.env)
+  ```
+
+  </details>
+* <details><summary>`decrypt -f`</summary><br>
+
+  Decrypt the contents of a specified encrypted `.env` file to an unencrypted `.env` file.
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ echo "HELLO=Production" > .env.production
+
+  $ dotenvx encrypt -f .env.production
+  ✔ encrypted (.env.production)
+  $ dotenvx decrypt -f .env.production
+  ✔ decrypted (.env.production)
+  ```
+
+  </details>
+* <details><summary>`decrypt --stdout`</summary><br>
+
+  Decrypt the contents of an encrypted `.env` file and send to stdout.
+
+  ```sh
+  $ dotenvx decrypt --stdout
+  #/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+  #/            public-key encryption for .env files          /
+  #/       [how it works](https://dotenvx.com/encryption)     /
+  #/----------------------------------------------------------/
+  DOTENV_PUBLIC_KEY="034af93e93708b994c10f236c96ef88e47291066946cce2e8d98c9e02c741ced45"
+  # .env
+  HELLO="World"
+  ```
+
+  or send to a file:
+
+  ```sh
+  $ dotenvx decrypt --stdout > somefile.txt
+  ```
+
+  </details>
+
 * <details><summary>`help`</summary><br>
 
   Output help for `dotenvx`.
@@ -1162,8 +1247,9 @@ More examples
     get [options] [key]               return a single environment variable
     set [options] <KEY> <value>       set a single environment variable
     encrypt [options]                 convert .env file(s) to encrypted .env file(s)
+    decrypt [options]                 convert encrypted .env file(s) to plain .env file(s)
     pro                               🏆 pro
-    ext                               🔌 extensions
+    ext [command] [args...]           🔌 extensions
     help [command]                    display help for command
   ```
 
