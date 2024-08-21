@@ -27,20 +27,6 @@ console.log(`Hello ${process.env.HELLO}`)
 
 or install globally - *unlocks dotenv for any language, framework, or platform!*
 
-<details><summary>with brew 🍺</summary><br>
-
-```sh
-brew install dotenvx/brew/dotenvx
-dotenvx help
-```
-
-[![brew installs](https://img.shields.io/github/downloads/dotenvx/dotenvx/total?label=brew%20installs)](https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb)
-<sup>*homebrew installs sourced from github releases - <a href="https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb">formula</a></sup>
-
-&nbsp;
-
-</details>
-
 <details><summary>with curl 🌐 </summary><br>
 
 ```sh
@@ -52,6 +38,20 @@ dotenvx help
 [![linux](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/linux&label=linux)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
 [![windows](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/windows&label=windows)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
 <sup>*curl installs sourced from npm binary packages - <a href="https://www.npmjs.com/package/@dotenvx/dotenvx-linux-x86_64">example</a></sup>
+
+&nbsp;
+
+</details>
+
+<details><summary>with brew 🍺</summary><br>
+
+```sh
+brew install dotenvx/brew/dotenvx
+dotenvx help
+```
+
+[![brew installs](https://img.shields.io/github/downloads/dotenvx/dotenvx/total?label=brew%20installs)](https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb)
+<sup>*homebrew installs sourced from github releases - <a href="https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb">formula</a></sup>
 
 &nbsp;
 
@@ -866,7 +866,7 @@ More examples
   </details>
 * <details><summary>`run --verbose`</summary><br>
 
-  Set log level to `verbose`. ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+  Set log level to `verbose`. ([log levels](https://docs.npmjs.com/cli/v8/using-npm/logging#setting-log-levels))
 
   ```sh
   $ echo "HELLO=production" > .env.production
@@ -882,7 +882,7 @@ More examples
   </details>
 * <details><summary>`run --debug`</summary><br>
 
-  Set log level to `debug`. ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+  Set log level to `debug`. ([log levels](https://docs.npmjs.com/cli/v8/using-npm/logging#setting-log-levels))
 
   ```sh
   $ echo "HELLO=production" > .env.production
@@ -904,7 +904,7 @@ More examples
   </details>
 * <details><summary>`run --quiet`</summary><br>
 
-  Use `--quiet` to suppress all output (except errors). ([log levels](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+  Use `--quiet` to suppress all output (except errors). ([log levels](https://docs.npmjs.com/cli/v8/using-npm/logging#setting-log-levels))
 
   ```sh
   $ echo "HELLO=production" > .env.production
@@ -927,7 +927,7 @@ More examples
   Hello production
   ```
 
-  Available log levels are `error, warn, info, verbose, debug, silly` ([source](https://github.com/winstonjs/winston?tab=readme-ov-file#logging))
+  Available log levels are `error, warn, info, verbose, debug, silly` ([source](https://docs.npmjs.com/cli/v8/using-npm/logging#setting-log-levels))
 
   </details>
 * <details><summary>`run --convention=nextjs`</summary><br>
