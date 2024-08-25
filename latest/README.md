@@ -9,7 +9,7 @@
 &nbsp;
 
 
-### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![test count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/motdotenv/bb76445765a9731e7d824a6efdf53524/raw/dotenvxTestCount.json)](https://github.com/dotenvx/dotenvx/tree/main/tests) [![npm installs](https://img.shields.io/npm/dt/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx)
+### Quickstart [![npm version](https://img.shields.io/npm/v/@dotenvx/dotenvx.svg)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![downloads](https://img.shields.io/npm/dw/@dotenvx/dotenvx)](https://www.npmjs.com/package/@dotenvx/dotenvx) [![test suite](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/motdotenv/bb76445765a9731e7d824a6efdf53524/raw/dotenvxTestCount.json)](https://github.com/dotenvx/dotenvx/tree/main/tests) 
 
 Install and use it in code just like `dotenv`.
 
@@ -34,10 +34,7 @@ curl -sfS https://dotenvx.sh | sh
 dotenvx help
 ```
 
-[![mac](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/darwin&label=mac)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
-[![linux](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/linux&label=linux)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
-[![windows](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl/windows&label=windows)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
-<sup>*curl installs sourced from npm binary packages - <a href="https://www.npmjs.com/package/@dotenvx/dotenvx-linux-x86_64">example</a></sup>
+[![curl installs](https://img.shields.io/endpoint?url=https://dotenvx.sh/stats/curl&label=curl%20installs)](https://github.com/dotenvx/dotenvx.sh/blob/main/install.sh)
 
 &nbsp;
 
@@ -51,7 +48,6 @@ dotenvx help
 ```
 
 [![brew installs](https://img.shields.io/github/downloads/dotenvx/dotenvx/total?label=brew%20installs)](https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb)
-<sup>*homebrew installs sourced from github releases - <a href="https://github.com/dotenvx/homebrew-brew/blob/main/Formula/dotenvx.rb">formula</a></sup>
 
 &nbsp;
 
@@ -69,7 +65,7 @@ docker run -it --rm -v $(pwd):/app dotenv/dotenvx help
 
 </details>
 
-<details><summary>or with github releases 🐙</summary><br>
+<details><summary>with github releases 🐙</summary><br>
 
 ```sh
 curl -L -o dotenvx.tar.gz "https://github.com/dotenvx/dotenvx/releases/latest/download/dotenvx-$(uname -s)-$(uname -m).tar.gz"
@@ -78,10 +74,20 @@ tar -xzf dotenvx.tar.gz
 ```
 
 [![github releases](https://img.shields.io/github/downloads/dotenvx/dotenvx/total)](https://github.com/dotenvx/dotenvx/releases)
-<sup>*includes homebrew installs</sup>
+
+&nbsp;
 
 </details>
 
+
+<details><summary>or with windows 🟦🟩🟥🟨</summary><br>
+
+```sh
+winget install dotenvx
+dotenvx help
+```
+
+</details>
 
 &nbsp;
 
