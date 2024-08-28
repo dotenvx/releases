@@ -149,6 +149,16 @@ More examples
   Hello World
   ```
 
+  > [!WARNING]
+  > Some of you are attempting to use the npm module directly with `deno run`. Don't, because deno currently has incomplete support for these encryption ciphers.
+  >
+  > ```
+  > $ deno run -A npm:@dotenvx/dotenvx encrypt
+  > Unknown cipher
+  > ```
+  > 
+  > Instead, use `dotenvx` as designed, by installing the cli as a binary - via curl, brew, etc.
+
   </details>
 * <details><summary>Bun 🥟</summary><br>
 
