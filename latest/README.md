@@ -1057,13 +1057,18 @@ More examples
   This can be useful when combined with `env` on the command line.
 
   ```
-  $ env $(dotenvx get format --shell) your-command
+  $ echo "console.log('Hello ' + process.env.KEY + ' ' + process.env.HELLO)" > index.js
+  $ env $(dotenvx get --format=shell) node index.js
+  Hello value World
   ```
 
   or with `export`.
 
   ```
-  $ export $(dotenvx get format --shell) your-command
+  $ echo "console.log('Hello ' + process.env.KEY + ' ' + process.env.HELLO)" > index.js
+  $ export $(dotenvx get --format=shell)
+  $ node index.js
+  Hello value World
   ```
 
   </details>
@@ -1302,7 +1307,7 @@ More examples
   </details>
 * <details><summary>`keypair DOTENV_PRIVATE_KEY`</summary><br>
 
-  Print specific key for `.env` file.
+  Print specific keypair for `.env` file.
 
   ```sh
   $ echo "HELLO=World" > .env
@@ -1310,6 +1315,19 @@ More examples
 
   $ dotenvx keypair DOTENV_PRIVATE_KEY
   <privateKey>
+  ```
+
+  </details>
+* <details><summary>`keypair --format shell`</summary><br>
+
+  Print a shell formatted response of keypair(s).
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenx encrypt
+
+  $ dotenvx keypair --format shell
+  DOTENV_PUBLIC_KEY=<publicKey> DOTENV_PRIVATE_KEY=<privateKey>
   ```
 
   </details>
