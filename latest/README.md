@@ -969,6 +969,21 @@ More examples
   Available log levels are `error, warn, info, verbose, debug, silly` ([source](https://docs.npmjs.com/cli/v8/using-npm/logging#setting-log-levels))
 
   </details>
+* <details><summary>`run --strict`</summary><br>
+
+  Exit with code `1` if any errors are encountered - like a missing .env file or decryption failure.
+
+  ```sh
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.missing --strict -- node index.js
+  [MISSING_ENV_FILE] missing .env.missing file (/path/to/.env.missing)
+  [MISSING_ENV_FILE] ? add one with [echo "HELLO=World" > .env.missing]
+  ```
+
+  This can be useful in `ci` scripts where you want to fail the ci if your `.env` file could not be decrypted at runtime.
+
+  </details>
 * <details><summary>`run --convention=nextjs`</summary><br>
 
   Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
@@ -1034,6 +1049,16 @@ More examples
 
   $ dotenvx get HELLO -f .env.production --env HELLO=String -f .env --overload
   World
+  ```
+
+  </details>
+* <details><summary>`get KEY --strict`</summary><br>
+
+  Exit with code `1` if any errors are encountered - like a missing key, missing .env file, or decryption failure.
+
+  ```sh
+  $ dotenvx get DOES_NOT_EXIST --strict
+  [MISSING_KEY] missing DOES_NOT_EXIST key
   ```
 
   </details>
@@ -1603,6 +1628,110 @@ More examples
   ```sh
   $ dotenvx --version
   X.X.X
+  ```
+
+  </details>
+
+### config() 📦
+
+* <details><summary>`config()`</summary><br>
+
+  Use directly in node.js code.
+
+  ```ini
+  # .env
+  HELLO="World"
+  ```
+
+  ```js
+  // index.js
+  require('@dotenvx/dotenvx').config()
+
+  console.log(`Hello ${process.env.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  [dotenvx@1.24.5] injecting env (1) from .env
+  Hello World
+  ```
+
+  </details>
+* <details><summary>`config(path: ['.env.local', '.env'])` - multiple files</summary><br>
+
+  Specify path(s) to multiple .env files.
+
+  ```ini
+  # .env.local
+  HELLO="Me"
+  ```
+
+  ```ini
+  # .env
+  HELLO="World"
+  ```
+
+  ```js
+  // index.js
+  require('@dotenvx/dotenvx').config({path: ['.env.local', '.env']})
+
+  console.log(`Hello ${process.env.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  [dotenvx@1.24.5] injecting env (1) from .env.local, .env
+  Hello Me
+  ```
+
+  </details>
+* <details><summary>`config(overload: true)` - overload</summary><br>
+
+  User `overload` to overwrite the prior set value.
+
+  ```ini
+  # .env.local
+  HELLO="Me"
+  ```
+
+  ```ini
+  # .env
+  HELLO="World"
+  ```
+
+  ```js
+  // index.js
+  require('@dotenvx/dotenvx').config({path: ['.env.local', '.env'], overload: true})
+
+  console.log(`Hello ${process.env.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  [dotenvx@1.24.5] injecting env (1) from .env.local, .env
+  Hello World
+  ```
+
+  </details>
+* <details><summary>`config(strict: true)` - strict</summary><br>
+
+  Use `strict` to throw if an error is encountered - like a missing .env file.
+
+  ```ini
+  # .env
+  HELLO="World"
+  ```
+
+  ```js
+  // index.js
+  require('@dotenvx/dotenvx').config({path: ['.env.missing', '.env'], strict: true})
+
+  console.log(`Hello ${process.env.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  Error: [MISSING_ENV_FILE] missing .env.missing file (/path/to/.env.missing)
   ```
 
   </details>
