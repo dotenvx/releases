@@ -1859,8 +1859,59 @@ More examples
   ```
 
   </details>
+* <details><summary>`parse(src)`</summary><br>
 
+  Parse a `.env` string directly in node.js code.
 
+  ```js
+  // index.js
+  const dotenvx = require('@dotenvx/dotenvx')
+  const src = 'HELLO=World'
+  const parsed = dotenvx.parse(src)
+  console.log(`Hello ${parsed.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  Hello World
+  ```
+
+  </details>
+* <details><summary>`parse(src, {processEnv:})`</summary><br>
+
+  Sometimes, you want to run `parse` without it accessing `process.env`. (You can pass a fake processEnv this way as well - sometimes useful.)
+
+  ```js
+  // index.js
+  const dotenvx = require('@dotenvx/dotenvx')
+  const src = 'USER=Me'
+  const parsed = dotenvx.parse(src, { processEnv: {} })
+  console.log(`Hello ${parsed.USER}`)
+  ```
+
+  ```sh
+  $ node index.js
+  Hello Me
+  ```
+
+  </details>
+* <details><summary>`parse(src, {privateKey:})`</summary><br>
+
+  Decrypt an encrypted `.env` string with `privateKey`.
+
+  ```js
+  // index.js
+  const dotenvx = require('@dotenvx/dotenvx')
+  const src = 'HELLO="encrypted:BE9Y7LKANx77X1pv1HnEoil93fPa5c9rpL/1ps48uaRT9zM8VR6mHx9yM+HktKdsPGIZELuZ7rr2mn1gScsmWitppAgE/1lVprNYBCqiYeaTcKXjDUXU5LfsEsflnAsDhT/kWG1l"'
+  const parsed = dotenvx.parse(src, { privateKey: 'a4547dcd9d3429615a3649bb79e87edb62ee6a74b007075e9141ae44f5fb412c' })
+  console.log(`Hello ${parsed.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  Hello World
+  ```
+  </details>
 
 &nbsp;
 
