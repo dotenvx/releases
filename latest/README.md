@@ -984,6 +984,18 @@ More examples
   This can be useful in `ci` scripts where you want to fail the ci if your `.env` file could not be decrypted at runtime.
 
   </details>
+* <details><summary>`run --ignore`</summary><br>
+
+  Ignore errors like `MISSING_ENV_FILE`.
+
+  ```sh
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ dotenvx run -f .env.missing --ignore=MISSING_ENV_FILE -- node index.js
+  ...
+  ```
+
+  </details>
 * <details><summary>`run --convention=nextjs`</summary><br>
 
   Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
@@ -1695,9 +1707,17 @@ More examples
 
   ```sh
   $ dotenvx ext gitignore
-  creating .gitignore
-  appending .env* to .gitignore
-  done
+  ✔ ignored .env* (.gitignore)
+  ```
+
+  </details>
+* <details><summary>`ext gitignore --pattern`</summary><br>
+
+  Gitignore specific pattern(s) of `.env` files.
+
+  ```sh
+  $ dotenvx ext gitignore --pattern .env.keys
+  ✔ ignored .env.keys (.gitignore)
   ```
 
   </details>
@@ -1707,7 +1727,7 @@ More examples
 
   ```sh
   $ dotenvx ext precommit
-  [dotenvx][precommit] success
+  [dotenvx][precommit] .env files (1) protected (encrypted or gitignored)
   ```
 
   </details>
@@ -1717,7 +1737,7 @@ More examples
 
   ```sh
   $ dotenvx ext precommit --install
-  [dotenvx][precommit] dotenvx precommit installed [.git/hooks/pre-commit]
+  [dotenvx][precommit] dotenvx ext precommit installed [.git/hooks/pre-commit]
   ```
 
   </details>
@@ -1728,6 +1748,7 @@ More examples
   Add it to your `Dockerfile`.
 
   ```sh
+  # Dockerfile
   RUN curl -fsS https://dotenvx.sh | sh
 
   ...
@@ -1780,6 +1801,8 @@ More examples
   Hello World
   ```
 
+  It defaults to looking for a `.env` file.
+
   </details>
 * <details><summary>`config(path: ['.env.local', '.env'])` - multiple files</summary><br>
 
@@ -1811,7 +1834,7 @@ More examples
   </details>
 * <details><summary>`config(overload: true)` - overload</summary><br>
 
-  User `overload` to overwrite the prior set value.
+  Use `overload` to overwrite the prior set value.
 
   ```ini
   # .env.local
@@ -1856,6 +1879,29 @@ More examples
   ```sh
   $ node index.js
   Error: [MISSING_ENV_FILE] missing .env.missing file (/path/to/.env.missing)
+  ```
+
+  </details>
+* <details><summary>`config(ignore:)` - ignore</summary><br>
+
+  Use `ignore` to suppress specific errors like `MISSING_ENV_FILE`.
+
+  ```ini
+  # .env
+  HELLO="World"
+  ```
+
+  ```js
+  // index.js
+  require('@dotenvx/dotenvx').config({path: ['.env.missing', '.env'], ignore: ['MISSING_ENV_FILE']})
+
+  console.log(`Hello ${process.env.HELLO}`)
+  ```
+
+  ```sh
+  $ node index.js
+  [dotenvx@1.24.5] injecting env (1) from .env.local, .env
+  Hello World
   ```
 
   </details>
