@@ -19,6 +19,7 @@ npm install @dotenvx/dotenvx --save
 ```js
 // index.js
 require('@dotenvx/dotenvx').config()
+// or import('@dotenvx/dotenvx/config') if you're using esm
 
 console.log(`Hello ${process.env.HELLO}`)
 ```
@@ -2024,7 +2025,7 @@ More examples
 
   ```js
   // index.js
-  require('@dotenvx/dotenvx').config({envKeysFile: '../../.env.keys'})
+  require('@dotenvx/dotenvx').config({path: ['.env'], envKeysFile: '../../.env.keys'})
   ```
 
   </details>
