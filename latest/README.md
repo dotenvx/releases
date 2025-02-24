@@ -2213,6 +2213,20 @@ More examples
   ```
 
   </details>
+* <details><summary>`get(KEY)` - <i>Decryption at Access</i></summary><br>
+
+  Programatically get an environment variable at access/runtime.
+
+  ```js
+  // index.js
+  const dotenvx = require('@dotenvx/dotenvx')
+  const decryptedValue = dotenvx.get('HELLO')
+  console.log(decryptedValue)
+  ```
+
+  This is known as *Decryption at Access* and is written about in [the whitepaper](https://dotenvx.com/dotenvx.pdf).
+
+  </details>
 
 &nbsp;
 
