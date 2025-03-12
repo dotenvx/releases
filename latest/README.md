@@ -741,6 +741,10 @@ More examples
 > Become a `dotenvx` power user.
 >
 
+### CLI 📟
+
+Advanced CLI commands.
+
 * <details><summary>`run` - Variable Expansion</summary><br>
 
   Reference and expand variables already on your machine for use in your .env file.
@@ -1875,6 +1879,8 @@ More examples
 
 ### Extensions 🔌
 
+CLI extensions.
+
 * <details><summary>`ext genexample`</summary><br>
 
   In one command, generate a `.env.example` file from your current `.env` file contents.
@@ -2006,7 +2012,9 @@ More examples
 
   </details>
 
-### config() 📦
+### Library 📦
+
+Use dotenvx directly in code.
 
 * <details><summary>`config()`</summary><br>
 
@@ -2227,6 +2235,16 @@ More examples
   This is known as *Decryption at Access* and is written about in [the whitepaper](https://dotenvx.com/dotenvx.pdf).
 
   </details>
+
+## Whitepaper
+
+> **Dotenvx: Reducing Secrets Risk with Cryptographic Separation**
+>
+> Abstract. An ideal secrets solution would not only centralize secrets but also contain the fallout of a breach. While secrets managers offer centralized storage and distribution, their design creates a large blast radius, risking exposure of thousands or even millions of secrets. We propose a solution that reduces the blast radius by splitting secrets management into two distinct components: an encrypted secrets file and a separate decryption key.
+>
+> ...
+>
+> [Read the whitepaper](https://dotenvx.com/dotenvx.pdf)
 
 &nbsp;
 
