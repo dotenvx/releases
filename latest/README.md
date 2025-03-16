@@ -604,7 +604,7 @@ More examples
   </details>
 * <details><summary>`--convention` flag</summary><br>
 
-  Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order). Set `--convention` to `nextjs`:
+  Load envs using [Next.js' convention](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#environment-variable-load-order) or [dotenv-flow convention](https://www.npmjs.com/package/dotenv-flow). Set `--convention` to `nextjs` or `flow`:
 
   ```sh
   $ echo "HELLO=development local" > .env.development.local
@@ -1028,6 +1028,31 @@ Advanced CLI commands.
   ```
 
   (more conventions available upon request)
+
+  </details>
+* <details><summary>`run --convention=flow`</summary><br>
+
+  Load envs using [dotenv-flow's convention](https://www.npmjs.com/package/dotenv-flow). Set `--convention` to `flow`:
+
+  ```sh
+  $ echo "HELLO=development local" > .env.development.local
+  $ echo "HELLO=development" > .env.development
+  $ echo "HELLO=local" > .env.local
+  $ echo "HELLO=env" > .env
+  $ echo "console.log('Hello ' + process.env.HELLO)" > index.js
+
+  $ NODE_ENV=development dotenvx run --convention=flow -- node index.js 
+  [dotenvx@1.X.X] injecting env (1) from .env.development.local, .env.development, .env.local, .env
+  Hello development local
+  ```
+
+  Further, we recommend using `DOTENV_ENV` over `NODE_ENV`– as `dotenvx` works everywhere, not just node.
+
+  ```sh
+  $ DOTENV_ENV=development dotenvx run --convention=flow -- node index.js 
+  [dotenvx@1.X.X] injecting env (1) from .env.development.local, .env.development, .env.local, .env
+  Hello development local
+  ```
 
   </details>
 * <details><summary>`run -fk`</summary><br>
@@ -1508,7 +1533,7 @@ Advanced CLI commands.
   </details>
 * <details><summary>`decrypt -ek`</summary><br>
 
-  Decrypt the contents inside an encrypted `.env` file except for an exluded key.
+  Decrypt the contents inside an encrypted `.env` file except for an excluded key.
 
   ```sh
   $ echo "HELLO=World\nHOLA=Mundo" > .env
@@ -1606,7 +1631,7 @@ Advanced CLI commands.
   </details>
 * <details><summary>`keypair --format shell`</summary><br>
 
-  Print a shell formatted reponse of public/private keys.
+  Print a shell formatted response of public/private keys.
 
   ```sh
   $ echo "HELLO=World" > .env
@@ -1757,7 +1782,7 @@ Advanced CLI commands.
   </details>
 * <details><summary>`rotate -ek`</summary><br>
 
-  Rotate the encrypted contents inside an encrypted `.env` file except for an exluded key.
+  Rotate the encrypted contents inside an encrypted `.env` file except for an excluded key.
 
   ```sh
   $ echo "HELLO=World\nHOLA=Mundo" > .env
@@ -2212,7 +2237,7 @@ Use dotenvx directly in code.
   </details>
 * <details><summary>`set(KEY, value)`</summary><br>
 
-  Programatically set an environment variable. 
+  Programmatically set an environment variable. 
 
   ```js
   // index.js
@@ -2223,7 +2248,7 @@ Use dotenvx directly in code.
   </details>
 * <details><summary>`get(KEY)` - <i>Decryption at Access</i></summary><br>
 
-  Programatically get an environment variable at access/runtime.
+  Programmatically get an environment variable at access/runtime.
 
   ```js
   // index.js
