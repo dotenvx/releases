@@ -797,6 +797,59 @@ Advanced CLI commands.
   ```
 
   </details>
+* <details><summary>`run` - Multiline</summary><br>
+
+  Dotenvx supports multiline values. This is particularly useful in conjunction with Docker - which [does not support multiline values](https://stackoverflow.com/questions/50299617/set-multiline-environment-variable-with-dockerfile/79578348#79578348).
+
+  ```ini
+  # .env
+  MULTILINE_PEM="-----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnNl1tL3QjKp3DZWM0T3u
+  LgGJQwu9WqyzHKZ6WIA5T+7zPjO1L8l3S8k8YzBrfH4mqWOD1GBI8Yjq2L1ac3Y/
+  bTdfHN8CmQr2iDJC0C6zY8YV93oZB3x0zC/LPbRYpF8f6OqX1lZj5vo2zJZy4fI/
+  kKcI5jHYc8VJq+KCuRZrvn+3V+KuL9tF9v8ZgjF2PZbU+LsCy5Yqg1M8f5Jp5f6V
+  u4QuUoobAgMBAAE=
+  -----END PUBLIC KEY-----"
+  ```
+
+  ```js
+  // index.js
+  console.log('MULTILINE_PEM', process.env.MULTILINE_PEM)
+  ```
+
+  ```sh
+  $ dotenvx run -- node index.js
+  MULTILINE_PEM -----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnNl1tL3QjKp3DZWM0T3u
+  LgGJQwu9WqyzHKZ6WIA5T+7zPjO1L8l3S8k8YzBrfH4mqWOD1GBI8Yjq2L1ac3Y/
+  bTdfHN8CmQr2iDJC0C6zY8YV93oZB3x0zC/LPbRYpF8f6OqX1lZj5vo2zJZy4fI/
+  kKcI5jHYc8VJq+KCuRZrvn+3V+KuL9tF9v8ZgjF2PZbU+LsCy5Yqg1M8f5Jp5f6V
+  u4QuUoobAgMBAAE=
+  -----END PUBLIC KEY-----
+  ```
+
+  </details>
+* <details><summary>`run` - Contextual Help</summary><br>
+
+  Unlike other dotenv libraries, dotenvx attempts to unblock you with contextual help.
+
+  For example, when missing a custom .env file:
+
+  ```sh
+  $ dotenvx run -f .env.missing -- echo $HELLO
+  [MISSING_ENV_FILE] missing .env.missing file (/Users/scottmotte/Code/dotenvx/playground/apr-16/.env.missing)
+  [MISSING_ENV_FILE] https://github.com/dotenvx/dotenvx/issues/484 and re-run [dotenvx run -- echo]
+  ```
+
+  or when missing a KEY:
+
+  ```sh
+  $ echo "HELLO=World" > .env
+  $ dotenvx get GOODBYE
+  [MISSING_KEY] missing GOODBYE key
+  ```
+
+  </details>
 * <details><summary>`run` - multiple `-f` flags</summary><br>
 
   Compose multiple `.env` files for environment variables loading, as you need.
