@@ -634,7 +634,7 @@ $ dotenvx encrypt
 ✔ encrypted (.env)
 ```
 
-![encrypted .env](https://github.com/dotenvx/dotenvx/assets/3848/2a8c3dc5-cd8e-4a08-8a59-c24d0535c81a)
+[![encrypted .env](https://github.com/user-attachments/assets/46dfe1a7-a027-4d80-9207-789eccc325dc)](https://dotenvx.com)
 
 > A `DOTENV_PUBLIC_KEY` (encryption key) and a `DOTENV_PRIVATE_KEY` (decryption key) are generated using the same public-key cryptography as [Bitcoin](https://en.bitcoin.it/wiki/Secp256k1).
 
@@ -2189,6 +2189,10 @@ Use dotenvx directly in code.
   // index.js
   require('@dotenvx/dotenvx').config({path: ['.env.local', '.env']})
 
+  // esm
+  // import dotenvx from "@dotenvx/dotenvx";
+  // dotenvx.config({path: ['.env.local', '.env']});
+
   console.log(`Hello ${process.env.HELLO}`)
   ```
 
@@ -2217,6 +2221,10 @@ Use dotenvx directly in code.
   // index.js
   require('@dotenvx/dotenvx').config({path: ['.env.local', '.env'], overload: true})
 
+  // esm
+  // import dotenvx from "@dotenvx/dotenvx";
+  // dotenvx.config({path: ['.env.local', '.env'], overload: true});
+
   console.log(`Hello ${process.env.HELLO}`)
   ```
 
@@ -2240,6 +2248,10 @@ Use dotenvx directly in code.
   // index.js
   require('@dotenvx/dotenvx').config({path: ['.env.missing', '.env'], strict: true})
 
+  // esm
+  // import dotenvx from "@dotenvx/dotenvx";
+  // dotenvx.config({path: ['.env.missing', '.env'], strict: true});
+
   console.log(`Hello ${process.env.HELLO}`)
   ```
 
@@ -2261,6 +2273,10 @@ Use dotenvx directly in code.
   ```js
   // index.js
   require('@dotenvx/dotenvx').config({path: ['.env.missing', '.env'], ignore: ['MISSING_ENV_FILE']})
+
+  // esm
+  // import dotenvx from "@dotenvx/dotenvx";
+  // dotenvx.config({path: ['.env.missing', '.env'], ignore: ['MISSING_ENV_FILE']});
 
   console.log(`Hello ${process.env.HELLO}`)
   ```
