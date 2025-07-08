@@ -768,6 +768,104 @@ Advanced CLI commands.
   ```
 
   </details>
+* <details><summary>`run` - Default Values</summary><br>
+
+  Use default values when environment variables are unset or empty.
+
+  ```ini
+  # .env
+  # Default value syntax: use value if set, otherwise use default
+  DATABASE_HOST=${DB_HOST:-localhost}
+  DATABASE_PORT=${DB_PORT:-5432}
+  
+  # Alternative syntax (no colon): use value if set, otherwise use default
+  API_URL=${API_BASE_URL-https://api.example.com}
+  ```
+  ```js
+  // index.js
+  console.log('DATABASE_HOST', process.env.DATABASE_HOST)
+  console.log('DATABASE_PORT', process.env.DATABASE_PORT)
+  console.log('API_URL', process.env.API_URL)
+  ```
+  ```sh
+  $ dotenvx run --debug -- node index.js
+  [dotenvx@1.X.X] injecting env (3) from .env
+  DATABASE_HOST localhost
+  DATABASE_PORT 5432
+  API_URL https://api.example.com
+  ```
+
+  </details>
+* <details><summary>`run` - Alternate Values</summary><br>
+
+  Use alternate values when environment variables are set and non-empty.
+
+  ```ini
+  # .env
+  NODE_ENV=production
+  
+  # Alternate value syntax: use alternate if set and non-empty, otherwise empty
+  DEBUG_MODE=${NODE_ENV:+false}
+  LOG_LEVEL=${NODE_ENV:+error}
+  
+  # Alternative syntax (no colon): use alternate if set, otherwise empty  
+  CACHE_ENABLED=${NODE_ENV+true}
+  ```
+  ```js
+  // index.js
+  console.log('NODE_ENV', process.env.NODE_ENV)
+  console.log('DEBUG_MODE', process.env.DEBUG_MODE)
+  console.log('LOG_LEVEL', process.env.LOG_LEVEL)
+  console.log('CACHE_ENABLED', process.env.CACHE_ENABLED)
+  ```
+  ```sh
+  $ dotenvx run --debug -- node index.js
+  [dotenvx@1.X.X] injecting env (4) from .env
+  NODE_ENV production
+  DEBUG_MODE false
+  LOG_LEVEL error
+  CACHE_ENABLED true
+  ```
+
+  </details>
+* <details><summary>`run` - Interpolation Syntax Summary (Variable Expansion, Default/Alternate Values)</summary><br>
+
+  Complete reference for variable interpolation patterns supported by dotenvx:
+
+  ```ini
+  # .env
+  DEFINED_VAR=hello
+  EMPTY_VAR=
+  # UNDEFINED_VAR is not set
+  
+  # Default value syntax - use variable if set/non-empty, otherwise use default
+  TEST1=${DEFINED_VAR:-fallback}     # Result: "hello"
+  TEST2=${EMPTY_VAR:-fallback}       # Result: "fallback"  
+  TEST3=${UNDEFINED_VAR:-fallback}   # Result: "fallback"
+  
+  # Default value syntax (no colon) - use variable if set, otherwise use default
+  TEST4=${DEFINED_VAR-fallback}      # Result: "hello"
+  TEST5=${EMPTY_VAR-fallback}        # Result: "" (empty, but set)
+  TEST6=${UNDEFINED_VAR-fallback}    # Result: "fallback"
+  
+  # Alternate value syntax - use alternate if variable is set/non-empty, otherwise empty
+  TEST7=${DEFINED_VAR:+alternate}    # Result: "alternate"
+  TEST8=${EMPTY_VAR:+alternate}      # Result: "" (empty)
+  TEST9=${UNDEFINED_VAR:+alternate}  # Result: "" (empty)
+  
+  # Alternate value syntax (no colon) - use alternate if variable is set, otherwise empty  
+  TEST10=${DEFINED_VAR+alternate}    # Result: "alternate"
+  TEST11=${EMPTY_VAR+alternate}      # Result: "alternate" (empty but set)
+  TEST12=${UNDEFINED_VAR+alternate}  # Result: "" (empty)
+  ```
+
+  **Key differences:**
+  - `:-` vs `-`: The colon makes empty values trigger the fallback
+  - `:+` vs `+`: The colon makes empty values not trigger the alternate  
+  - Default syntax (`-`): Use variable value or fallback
+  - Alternate syntax (`+`): Use alternate value or empty string
+
+  </details>
 * <details><summary>`run` - Command Substitution</summary><br>
 
   Add the output of a command to one of your variables in your .env file.
@@ -896,6 +994,31 @@ Advanced CLI commands.
   ```
 
   Note that with `--overload` subsequent files DO override pre-existing variables defined in previous files.
+
+  </details>
+* <details><summary>`run` - Environment Variable Precedence (Container/Cloud Deployments)</summary><br>
+
+  When deploying applications in containers or cloud environments, you often need to override specific environment variables at runtime without modifying committed `.env` files. By default, dotenvx follows the historic dotenv principle: **environment variables already present take precedence over `.env` files**.
+
+  ```sh
+  # .env.prod contains: MODEL_REGISTRY=registry.company.com/models/v1
+  $ echo "MODEL_REGISTRY=registry.company.com/models/v1" > .env.prod
+  $ echo "console.log('MODEL_REGISTRY:', process.env.MODEL_REGISTRY)" > app.js
+
+  # Without environment variable set - uses .env.prod value
+  $ dotenvx run -f .env.prod -- node app.js
+  MODEL_REGISTRY: registry.company.com/models/v1
+
+  # With environment variable set (e.g., via Azure Container Service) - environment variable takes precedence
+  $ MODEL_REGISTRY=registry.azure.com/models/v2 dotenvx run -f .env.prod -- node app.js
+  MODEL_REGISTRY: registry.azure.com/models/v2
+
+  # To force .env.prod to override environment variables, use --overload
+  $ MODEL_REGISTRY=registry.azure.com/models/v2 dotenvx run -f .env.prod --overload -- node app.js
+  MODEL_REGISTRY: registry.company.com/models/v1
+  ```
+
+  **For container deployments:** Set environment variables through your cloud provider's UI/configuration (Azure Container Service, AWS ECS, etc.) to override specific values from committed `.env` files without rebuilding your application.
 
   </details>
 * <details><summary>`DOTENV_PRIVATE_KEY=key run`</summary><br>
