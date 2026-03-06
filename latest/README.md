@@ -1248,15 +1248,6 @@ $ dotenvx run -fk .env.keys -f apps/app1/.env -- yourcommand
 ```
 
 </details>
-<details><summary>`run --ops-off`</summary><br>
-
-Turn off [Dotenvx Ops](https://dotenvx.com/ops) features.
-
-```sh
-$ dotenvx run --ops-off -- yourcommand
-```
-
-</details>
 <details><summary>`get KEY`</summary><br>
 
 Return a single environment variable's value.
@@ -2495,16 +2486,6 @@ $ dotenvx run --convention=nextjs -- node index.js
 ```
 
 </details>
-<details><summary>`config(opsOff:)` - opsOff</summary><br>
-
-Turn off [Dotenvx Ops](https://dotenvx.com/ops) features.
-
-```js
-// index.js
-require('@dotenvx/dotenvx').config({opsOff: true})
-```
-
-</details>
 <details><summary>`parse(src)`</summary><br>
 
 Parse a `.env` string directly in node.js code.
@@ -2597,39 +2578,6 @@ This is known as *Decryption at Access* and is written about in [the whitepaper]
 
 &nbsp;
 
-## AS2 🔐
-
-<a href="https://dotenvx.com/as2">
-  <img src="https://dotenvx.com/assets/img/as2/9.jpg" alt="dotenvx as2" height="400" align="right">
-</a>
-
-*agentic secret storage*.
-
-> Secrets designed for agents. No logins. No consoles. Pure cryptography.
-
-### Quickstart
-
-Install [`vestauth`](https://github.com/vestauth/vestauth) and initialize your agent. (AS2 uses [vestauth](https://vestauth.com) to authenticate agents.)
-
-```sh
-npm i -g vestauth
-vestauth agent init
-```
-
-Your agent can `set` secrets.
-
-```
-vestauth agent curl -X POST https://as2.dotenvx.com/set '{"KEY": "value"}'
-```
-
-Your agent can `get` secrets.
-
-```
-vestauth agent curl https://as2.dotenvx.com/get?key=KEY
-```
-
-&nbsp;
-
 ## Ops 🏰
 
 [![dotenvx-ops](https://dotenvx.com/dotenvx-ops-banner.png?v=2)](https://dotenvx.com/ops)
@@ -2687,7 +2635,7 @@ $ dotenvx ops logout
 ```
 
 </details>
-<details><summary>`settings`</summary><br>
+<details><summary>`ops settings`</summary><br>
 
 Check and configure various settings for [Ops](https://dotenvx.com/ops) - `username`, `token`, and more.
 
